@@ -14,7 +14,9 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $usercount = (int)$this->command->ask('9adech yse3dek min user <3', 20);
+        User::factory()->aziz()->create();
+
+        $usercount = (int)$this->command->ask('How many user u want', 20);
         User::factory($usercount)->create();
 
     }

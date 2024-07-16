@@ -15,9 +15,9 @@ class BlogPostsTableSeeder extends Seeder
     public function run(): void
     {
         $users = User::all();
-        $blogs = (int)$this->command->ask('ch9awlek fi 50 blogpost bb ? ', 50);
+        $blogs = (int)$this->command->ask('How many blogpost you want ', 50);
         if($blogs === 0) {
-           $this->command->info('akeka la fama la blogpost la comments bb 3awed mil lowel');
+           $this->command->info('Please enter a valid number');
            return;
         }
 

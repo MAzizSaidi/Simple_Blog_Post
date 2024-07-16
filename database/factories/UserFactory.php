@@ -39,4 +39,15 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function aziz(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'name' => 'Aziz Saidi',
+            'email' => 'aziz@gmail.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+        ]);
+    }
 }
