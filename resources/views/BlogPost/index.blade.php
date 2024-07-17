@@ -42,7 +42,7 @@
                             <div class="media mb-3">
                                 <img src="https://via.placeholder.com/50" class="mr-3 rounded-circle" alt="User avatar">
                                 <div class="media-body">
-                                    <h6 class="mt-0">User Name</h6>
+                                    <h6 class="mt-0">{{$comment->user->name}}</h6>
                                     <p>{{ $comment->content }}</p>
                                     <small class="text-muted">added {{ $comment->created_at->diffForHumans() }}</small>
                                 </div>

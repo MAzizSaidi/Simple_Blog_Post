@@ -12,11 +12,17 @@ class Comments extends Model
     use SoftDeletes;
     protected $fillable = [
         'content',
+
     ];
 
     public function blogpost()
     {
        return $this->belongsTo('App\Models\BlogPost');
+    }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\User');
     }
 
 }

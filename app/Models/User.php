@@ -42,8 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function blogpost()
+    public function blogpost(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
        return $this->hasMany('App\Models\BlogPost');
+    }
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Models\Comments');
     }
 }

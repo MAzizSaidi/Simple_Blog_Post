@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\BlogPost;
 use App\Models\Comments;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,9 +16,12 @@ class CommentsTableSeeder extends Seeder
     public function run(): void
     {
         $posts = BlogPost::all();
+        $users = User::all();
+
         $cmnts = (int)$this->command->ask('How many comments you want' , 200);
-        $comments = Comments::factory($cmnts)->make()->each(function($comment) use ($posts){
+        $comments = Comments::factory($cmnts)->make()->each(function($comment) use ($posts , $users){
             $comment->blog_post_id = $posts->random()->id;
+            $comment->user_id = $users->random()->id;
             $comment->save();
         });
     }
