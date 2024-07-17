@@ -36,18 +36,22 @@
                             <a href="{{ route('posts.index') }}" class="btn btn-secondary">Back to Blog</a>
                         </div>
                     </div>
-                    <div class="card-header ">
+                    <div class="card-body">
+                        <h5>Comments</h5>
                         @forelse($post->comments as $comment)
-                            <div class=" d-flex justify-content-between ">
-                                <p>{{$comment->content}}</p>
-                                <small class="text-muted">added at {{ $comment->created_at->diffForHumans()}}</small>
+                            <div class="media mb-3">
+                                <img src="https://via.placeholder.com/50" class="mr-3 rounded-circle" alt="User avatar">
+                                <div class="media-body">
+                                    <h6 class="mt-0">User Name</h6>
+                                    <p>{{ $comment->content }}</p>
+                                    <small class="text-muted">added {{ $comment->created_at->diffForHumans() }}</small>
+                                </div>
                             </div>
                         @empty
-                            <small>No comment added yet .. add your vision</small>
+                            <small>No comments yet. Add your thoughts below.</small>
                         @endforelse
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

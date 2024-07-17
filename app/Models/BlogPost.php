@@ -15,23 +15,23 @@ class BlogPost extends Model
         'content',
     ];
 
-    public function comments()
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
        return $this->hasMany('App\Models\Comments');
     }
 
-    public function userblogpost()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
        return $this->belongsTo('App\Models\User');
     }
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
-//        static::deleting(function (BlogPost $blogpost) {
-//            $blogpost->comments()->delete();
-//        });
+        static::deleting(function (BlogPost $blogpost) {
+            $blogpost->comments()->delete();
+        });
 
         static::restoring(callback: function (BlogPost $blogpost) {
          $blogpost->comments()->restore();
