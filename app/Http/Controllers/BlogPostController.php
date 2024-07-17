@@ -6,7 +6,7 @@ use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class BlogPostController extends Controller
+class  BlogPostController extends Controller
 {
     /**
      * Display a listing of the resource.
