@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use App\Models\Comments;
+use Illuminate\Support\Facades\Auth;
+
 class CommentsController extends Controller
 {
     /**
@@ -31,6 +33,7 @@ class CommentsController extends Controller
         $comment = new Comments();
         $comment->content = $request->input('content');
         $comment->blog_post_id = $request->input('blog_post_id');
+        $comment->user_id = Auth::user()->id;
         $comment->save();
         return redirect()->route('posts.index');
 
