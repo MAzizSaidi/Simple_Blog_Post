@@ -14,12 +14,16 @@
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
                         <div>
+                            @can('update', $post)
                             <a href="{{ route('posts.edit', $post) }}" class="btn btn-warning mr-2">Update</a>
+                            @endcan
+                            @can('delete', $post)
                             <form action="{{ route('posts.destroy', $post) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger mr-2">Delete</button>
                             </form>
+                             @endcan
                             <button id="commentBtn" class="btn btn-primary mr-2">Comment</button>
                             <div id="commentField" style="display: none;">
                                 <form action="{{ route('comments.store') }}" method="POST">

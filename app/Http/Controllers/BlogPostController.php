@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -58,7 +59,7 @@ class  BlogPostController extends Controller
      */
     public function edit(BlogPost $post)
     {
-        if(Gate::denies('update_post',$post)){
+        if(Gate::denies('update',$post)){
             abort(403,'you don\'t have permission to update this resource');
         };
 
@@ -79,10 +80,11 @@ class  BlogPostController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @throws AuthorizationException
      */
     public function destroy( Request $request , BlogPost $post)
     {
-        $this->authorize('delete_post',$post);
+        $this->authorize($post);
         $post->delete();
         $request->session()->flash('success', 'The resource was deleted successfully');
         return redirect()->route('posts.index');
