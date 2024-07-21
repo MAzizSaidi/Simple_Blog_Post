@@ -17,7 +17,8 @@ class CommentsFactory extends Factory
     public function definition(): array
     {
         return [
-            'content' => fake()->text()
+            'content' => fake()->text(),
+            'created_at' => fake()->dateTimeBetween('-3 months'),
         ];
     }
 }

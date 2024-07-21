@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Scopes\LatestScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BlogPost extends Model
@@ -24,6 +26,11 @@ class BlogPost extends Model
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
        return $this->belongsTo('App\Models\User');
+    }
+
+    public function scopeMostCommented( Builder $qurey)
+    {
+            $qurey->withcount('comments')->orderBy('comments_count' , 'desc');
     }
 
     public static function boot(): void

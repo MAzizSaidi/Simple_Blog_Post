@@ -16,11 +16,15 @@ class  BlogPostController extends Controller
     {
 
         $posts = BlogPost::withCount('comments')->get();
-
+        $mostCommented = BlogPost::MostCommented()->take(5)->get();
 
         return view(
             'BlogPost.fetch',
-            ['posts' => $posts] ,
+            [
+                'posts' => $posts,
+                'mostCommented' => $mostCommented,
+            ]
+
         );
     }
 
@@ -51,7 +55,8 @@ class  BlogPostController extends Controller
      */
     public function show(BlogPost $post)
     {
-        return view('BlogPost.index' , ['post' =>BlogPost::with('comments')->findOrFail($post->id)]);
+        return view('BlogPost.index',
+            ['post' =>BlogPost::with('comments')->findOrFail($post->id)]);
     }
 
     /**
