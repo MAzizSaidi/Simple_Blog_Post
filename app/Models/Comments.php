@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,4 +26,11 @@ class Comments extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LatestScope);
+
+    }
 }

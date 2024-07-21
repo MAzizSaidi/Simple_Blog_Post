@@ -35,7 +35,8 @@ class CommentsController extends Controller
         $comment->blog_post_id = $request->input('blog_post_id');
         $comment->user_id = Auth::user()->id;
         $comment->save();
-        return redirect()->route('posts.index');
+    
+        return redirect()->route('posts.show', ['post'=> $comment->blog_post_id]);
 
     }
 
