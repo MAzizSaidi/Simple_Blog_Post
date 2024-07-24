@@ -18,7 +18,8 @@
                     <div class="list-group list-group-flush">
                         @foreach($mostCommented as $post)
                             <div class="list-group-item mb-2">
-                                {{ $post->title }}
+                               <p>{{ $post->title }}</p>
+                                <small class="text-muted">{{$post->comments_count}} Comments </small>
                                 <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="btn btn-primary btn-sm float-end">View</a>
                             </div>
                         @endforeach

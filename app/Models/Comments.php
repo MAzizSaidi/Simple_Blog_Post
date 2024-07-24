@@ -30,7 +30,7 @@ class Comments extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new LatestScope);
+//        static::addGlobalScope(new LatestScope);
 
     }
 }
