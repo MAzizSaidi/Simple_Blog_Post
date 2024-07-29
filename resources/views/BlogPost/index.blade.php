@@ -8,6 +8,11 @@
                     <div class="card-header">
                         <h5>{{ $post->title }}</h5>
                         <small class="text-muted">Posted on {{ $post->created_at->format('M d, Y') }}</small>
+                        @if ( (new \Carbon\Carbon())->diffInMinutes($post->created_at) <= 10)
+                            @component('Components.badge')
+                                  Just added {{ $post->created_at->diffForHumans()}}
+                            @endcomponent
+                        @endif
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{ $post->content }}</p>
@@ -15,15 +20,21 @@
                     <div class="card-footer d-flex justify-content-between align-items-center">
                         <div>
                             @can('update', $post)
-                            <a href="{{ route('posts.edit', $post) }}" class="btn btn-warning mr-2">Update</a>
+                              <a href="{{ route('posts.edit', $post) }}" class="btn btn-warning mr-2">Update</a>
                             @endcan
+                            @if($post->trashed())
+                                <div>
+                                    <p  class="mt-4" >The post is already deleted ! , where working on force deleting and resorting Functions</p>
+                                </div>
+                                @else
                             @can('delete', $post)
                             <form action="{{ route('posts.destroy', $post) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger mr-2">Delete</button>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger mr-2">Delete</button>
                             </form>
                              @endcan
+                                @endif
                             <button id="commentBtn" class="btn btn-primary mr-2">Comment</button>
                             <div id="commentField" style="display: none;">
                                 <form action="{{ route('comments.store') }}" method="POST">

@@ -5,15 +5,19 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
-
                 <div class="card-body">
-                    @if (session('status'))
+                    @if (session('status , danger'))
                         <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                            {{ session('status , danger') }}
                         </div>
                     @endif
-
                     {{ __('You are logged in!') }}
+                </div>
+            </div>
+        </div>
+            <div class="col-md-4">
+                <div class="card-header">
+                     <a href="{{ route('posts.index') }}" class="btn btn-secondary">Go to Posts !</a>
                 </div>
             </div>
         </div>

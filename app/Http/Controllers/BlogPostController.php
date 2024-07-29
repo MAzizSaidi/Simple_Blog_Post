@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 class  BlogPostController extends Controller
 {
@@ -14,15 +16,25 @@ class  BlogPostController extends Controller
      */
     public function index()
     {
+        $posts = BlogPost::withCount('comments')->with('user')->get();
 
-        $posts = BlogPost::withCount('comments')->get();
-        $mostCommented = BlogPost::MostCommented()->take(5)->get();
+        $mostCommented = Cache::remember('mostCommented', now()->addSeconds(20) , function () {
+           return BlogPost::MostCommented()->take(5)->get();
+        });
+        $activeUser = Cache::remember('activeUser', now()->addSeconds(20) , function () {
+            return User::MostActiveUser()->take(5)->get();
+        });
+        $MostActiveUserLastMonth = Cache::remember('MostActiveUserLastMonth', now()->addSeconds(20) , function () {
+            return User::MostActiveUserLastMonth()->take(5)->get();
+        });
 
         return view(
             'BlogPost.fetch',
             [
                 'posts' => $posts,
                 'mostCommented' => $mostCommented,
+                'activeUser' => $activeUser,
+                'MostActiveUserLastMonth' => $MostActiveUserLastMonth,
             ]
 
         );
@@ -46,7 +58,7 @@ class  BlogPostController extends Controller
         $post->content = $request->input('content');
         $post->user_id = Auth::user()->id;
         $post->save();
-        $request->session()->flash('success', 'The resource was created successfully');
+        $request->session()->flash('status', 'The resource was created successfully');
         return redirect()->route('posts.index');
     }
 
@@ -55,8 +67,11 @@ class  BlogPostController extends Controller
      */
     public function show(BlogPost $post)
     {
+        $post = Cache::remember('blog-post-show' , now() ->addMinutes(10) , function() use ($post) {
+          return  BlogPost::with('comments')->findOrFail($post->id);
+        });
         return view('BlogPost.index',
-            ['post' =>BlogPost::with('comments')->findOrFail($post->id)]);
+            ['post' => $post]);
     }
 
     /**
@@ -79,7 +94,7 @@ class  BlogPostController extends Controller
         $post->title = $request->input('title');
         $post->content = $request->input('content');
         $post->save();
-        $request->session()->flash('success', 'The resource was updated successfully');
+        $request->session()->flash('status', 'The resource was updated successfully');
         return redirect()->route('posts.index');
     }
 
@@ -91,7 +106,7 @@ class  BlogPostController extends Controller
     {
         $this->authorize($post);
         $post->delete();
-        $request->session()->flash('success', 'The resource was deleted successfully');
+        $request->session()->flash('danger', 'The resource was deleted successfully');
         return redirect()->route('posts.index');
     }
 }

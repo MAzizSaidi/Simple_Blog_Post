@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Scopes\AdminDeletes;
 use App\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class BlogPost extends Model
 {
@@ -35,12 +37,18 @@ class BlogPost extends Model
 
     public static function boot(): void
     {
+        static::addGlobalScope(new AdminDeletes());
+
         parent::boot();
 
         static::addGlobalScope(new LatestScope);
 
         static::deleting(function (BlogPost $blogpost) {
             $blogpost->comments()->delete();
+        });
+
+        static::updating(function (BlogPost $blogpost) {
+           Cache::forget('blog-post-show');
         });
 
         static::restoring(callback: function (BlogPost $blogpost) {

@@ -17,6 +17,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -68,9 +69,15 @@
                                 </div>
                             </li>
 
+
                         @endguest
                     </ul>
                 </div>
+                @if (session()->has('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status')}}
+                    </div>
+                @endif
             </div>
         </nav>
 
