@@ -67,7 +67,7 @@ class  BlogPostController extends Controller
      */
     public function show(BlogPost $post)
     {
-        $post = Cache::remember('blog-post-show' , now() ->addMinutes(10) , function() use ($post) {
+        $post = Cache::remember('blog-post-{$post->id}' , now() ->addMinutes(10) , function() use ($post) {
           return  BlogPost::with('comments')->findOrFail($post->id);
         });
         return view('BlogPost.index',

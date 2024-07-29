@@ -48,7 +48,7 @@ class BlogPost extends Model
         });
 
         static::updating(function (BlogPost $blogpost) {
-           Cache::forget('blog-post-show');
+           Cache::forget('blog-post-{$post->id}');
         });
 
         static::restoring(callback: function (BlogPost $blogpost) {
