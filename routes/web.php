@@ -28,6 +28,7 @@ Route::prefix('posts')->group(function () {
     Route::get('/{post}/edit', [BlogPostController::class, 'edit'])->name('posts.edit');
     Route::put('/{post}', [BlogPostController::class, 'update'])->name('posts.update');
     Route::delete('/{post}', [BlogPostController::class, 'destroy'])->name('posts.destroy');
+    Route::Patch('/{post}', [BlogPostController::class, 'restore'])->name('posts.restore');
 });
 Route::post('/', [CommentsController::class, 'store'])->name('comments.store');
 

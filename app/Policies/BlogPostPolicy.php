@@ -53,7 +53,7 @@ class BlogPostPolicy
      */
     public function restore(User $user, BlogPost $blogPost): bool
     {
-        //
+        return $user->id == $blogPost->user_id;
     }
 
     /**

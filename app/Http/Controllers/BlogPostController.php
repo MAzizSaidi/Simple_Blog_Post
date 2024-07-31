@@ -67,7 +67,7 @@ class  BlogPostController extends Controller
      */
     public function show(BlogPost $post)
     {
-        $post = Cache::remember('blog-post-{$post->id}' , now() ->addMinutes(10) , function() use ($post) {
+        $post = Cache::remember("blog-post-{$post->id}" , now()->addSeconds(20) , function() use ($post) {
           return  BlogPost::with('comments')->findOrFail($post->id);
         });
         return view('BlogPost.index',
@@ -108,5 +108,12 @@ class  BlogPostController extends Controller
         $post->delete();
         $request->session()->flash('danger', 'The resource was deleted successfully');
         return redirect()->route('posts.index');
+    }
+    public function restore(Request $request, BlogPost $post)
+    {
+        $post = BlogPost::onlyTrashed()->find($post->id);
+        $post->restore();
+        $request->session()->flash('success', 'The resource was restored successfully');
+        return redirect()->route('posts.show' , ['post' => $post->id]);
     }
 }
