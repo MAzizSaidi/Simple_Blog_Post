@@ -5,15 +5,21 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card">
-                    <div class="card-header">
-                        <h5>{{ $post->title }}</h5>
-                        <small class="text-muted">Posted on {{ $post->created_at->format('M d, Y') }}</small>
-                        @if ((new \Carbon\Carbon())->diffInSeconds($post->created_at) <= 10)
-                            @component('Components.badge')
-                                Just added {{ $post->created_at->diffForHumans() }}
-                            @endcomponent
-                        @endif
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5>{{ $post->title }}</h5>
+                            <small class="text-muted">Posted on {{ $post->created_at->format('M d, Y') }}</small>
+                            @if ((new \Carbon\Carbon())->diffInSeconds($post->created_at) <= 10)
+                                @component('Components.badge')
+                                    Just added {{ $post->created_at->diffForHumans() }}
+                                @endcomponent
+                            @endif
+                        </div>
+                        <div>
+                            <p class="mb-0">Currently seen by {{$conter}} Users</p>
+                        </div>
                     </div>
+
                     <div class="card-body">
                         <p class="card-text">{{ $post->content }}</p>
                     </div>

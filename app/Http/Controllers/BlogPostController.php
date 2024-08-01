@@ -67,11 +67,43 @@ class  BlogPostController extends Controller
      */
     public function show(BlogPost $post)
     {
+
+        $sessionId = session()->getId();
+        $conterKey = "blog-post{$post->id}-conter";
+        $usersKey = "blog-post{$post->id}-user";
+        $users = Cache::get($usersKey, []);
+        $usersUpdate = [];
+        $difference = 0;
+        $now = now();
+
+        foreach($users as $session => $lastVist){
+                if ($now->diffInMinutes($lastVist) >= 1){
+                    $difference-- ;}
+                else {
+                        $usersUpdate[] = $lastVist;
+                    }
+            }
+         if (!array_key_exists($sessionId, $users) || $now->diffInMinutes($users[$sessionId]) >= 1) {
+             $difference ++ ;
+         }
+         $usersUpdate[$sessionId] = $now;
+         Cache::forever($usersKey,$usersUpdate);
+         if(!Cache::has($conterKey)){
+             Cache::forever($conterKey,1);
+         } else{
+             Cache::increment($conterKey , $difference);
+         }
+         $conter = Cache::get($conterKey);
+
+
         $post = Cache::remember("blog-post-{$post->id}" , now()->addSeconds(20) , function() use ($post) {
           return  BlogPost::with('comments')->findOrFail($post->id);
         });
         return view('BlogPost.index',
-            ['post' => $post]);
+            [
+                'post' => $post,
+                'conter' => $conter,
+            ]);
     }
 
     /**
