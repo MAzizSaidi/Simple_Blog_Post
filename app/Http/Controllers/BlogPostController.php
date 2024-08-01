@@ -67,33 +67,37 @@ class  BlogPostController extends Controller
      */
     public function show(BlogPost $post)
     {
-
         $sessionId = session()->getId();
-        $conterKey = "blog-post{$post->id}-conter";
-        $usersKey = "blog-post{$post->id}-user";
+        $postId = $post->id;
+        $counterKey = "blog-post{$postId}-counter";
+        $usersKey = "blog-post{$postId}-user";
         $users = Cache::get($usersKey, []);
+        $now = now();
         $usersUpdate = [];
         $difference = 0;
-        $now = now();
 
-        foreach($users as $session => $lastVist){
-                if ($now->diffInMinutes($lastVist) >= 1){
-                    $difference-- ;}
-                else {
-                        $usersUpdate[] = $lastVist;
-                    }
+        foreach ($users as $session => $lastVisit) {
+            if ($now->diffInMinutes($lastVisit) < 1) {
+                $usersUpdate[$session] = $lastVisit;
             }
-         if (!array_key_exists($sessionId, $users) || $now->diffInMinutes($users[$sessionId]) >= 1) {
-             $difference ++ ;
-         }
-         $usersUpdate[$sessionId] = $now;
-         Cache::forever($usersKey,$usersUpdate);
-         if(!Cache::has($conterKey)){
-             Cache::forever($conterKey,1);
-         } else{
-             Cache::increment($conterKey , $difference);
-         }
-         $conter = Cache::get($conterKey);
+        }
+
+        if (!array_key_exists($sessionId, $users) || $now->diffInMinutes($users[$sessionId]) >= 1) {
+            $difference++;
+            $usersUpdate[$sessionId] = $now;
+        }
+
+        Cache::forever($usersKey, $usersUpdate);
+        
+        if ($difference != 0) {
+            if (!Cache::has($counterKey)) {
+                Cache::forever($counterKey, 1);
+            } else {
+                Cache::increment($counterKey, $difference);
+            }
+        }
+
+        $counter = Cache::get($counterKey);
 
 
         $post = Cache::remember("blog-post-{$post->id}" , now()->addSeconds(20) , function() use ($post) {
@@ -102,7 +106,7 @@ class  BlogPostController extends Controller
         return view('BlogPost.index',
             [
                 'post' => $post,
-                'conter' => $conter,
+                'conter' => $counter,
             ]);
     }
 
