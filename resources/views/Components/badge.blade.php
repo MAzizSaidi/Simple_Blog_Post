@@ -1,5 +1,4 @@
-@if(!isset($show)|| $show)
-<span class="alert alert-{{$type ?? 'success'}}">
-    {{$slot}}
-</span>
-@endif
+ <span class="badge text-bg-success">Currently seen by {{ !empty($conter) ? $conter : '' }}
+        {{$slot}}
+ </span>
+

@@ -16,7 +16,7 @@ class  BlogPostController extends Controller
      */
     public function index()
     {
-        $posts = BlogPost::withCount('comments')->with('user')->get();
+        $posts = BlogPost::withCount('comments')->with(['user','tags'])->get();
 
         $mostCommented = Cache::remember('mostCommented', now()->addSeconds(20) , function () {
            return BlogPost::MostCommented()->take(5)->get();
@@ -88,7 +88,7 @@ class  BlogPostController extends Controller
         }
 
         Cache::forever($usersKey, $usersUpdate);
-        
+
         if ($difference != 0) {
             if (!Cache::has($counterKey)) {
                 Cache::forever($counterKey, 1);

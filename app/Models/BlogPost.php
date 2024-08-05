@@ -30,6 +30,11 @@ class BlogPost extends Model
        return $this->belongsTo('App\Models\User');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('App\Models\Tags')->withTimestamps();
+    }
+
     public function scopeMostCommented( Builder $qurey)
     {
             $qurey->withcount('comments')->orderBy('comments_count' , 'desc');

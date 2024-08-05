@@ -77,6 +77,9 @@
                                         <del>
                                     @endif
                                     <h5 class="card-title">{{$post->title}}</h5>
+                                                @if ($post->tags->count())
+                                                @component('components.tag',['tags' => $post->tags]) @endcomponent
+                                                @endif
                                         @if ($post->trashed())
                                             </del>
                                         @endif
