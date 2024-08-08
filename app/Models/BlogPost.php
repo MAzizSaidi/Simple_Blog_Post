@@ -37,6 +37,7 @@ class BlogPost extends Model
 
     public function scopeMostCommented( Builder $qurey)
     {
+        //comments_count
             $qurey->withcount('comments')->orderBy('comments_count' , 'desc');
     }
 

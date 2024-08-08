@@ -19,7 +19,6 @@
                             @component('components.badge', ['conter' => $conter])@endcomponent
                             @component('components.tag', ['tags' => $post->tags]) @endcomponent
                         </div>
-
                     </div>
 
                     <div class="card-body">

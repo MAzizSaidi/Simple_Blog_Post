@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\PostsTagController;
+use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +31,9 @@ Route::prefix('posts')->group(function () {
     Route::put('/{post}', [BlogPostController::class, 'update'])->name('posts.update');
     Route::delete('/{post}', [BlogPostController::class, 'destroy'])->name('posts.destroy');
     Route::Patch('/{post}', [BlogPostController::class, 'restore'])->name('posts.restore');
+    Route::get('/tags/{tag}', [PostsTagController::class, 'index'])->name('posts.tag.index');
 });
 Route::post('/', [CommentsController::class, 'store'])->name('comments.store');
+
+
 

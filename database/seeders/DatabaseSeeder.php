@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
                 UserTableSeeder::class,
                 BlogPostsTableSeeder::class,
-                CommentsTableSeeder::class
+                CommentsTableSeeder::class,
+                TagTableSeeder::class,
+                BlogPostTagSeeder::class,
         ]);
         $this->command->info('Database seeded successfully');
 

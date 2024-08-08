@@ -38,6 +38,7 @@ class  BlogPostController extends Controller
             ]
 
         );
+
     }
 
     /**
@@ -101,13 +102,16 @@ class  BlogPostController extends Controller
 
 
         $post = Cache::remember("blog-post-{$post->id}" , now()->addSeconds(20) , function() use ($post) {
-          return  BlogPost::with('comments')->findOrFail($post->id);
+          return  BlogPost::with(['comments','tags'])->findOrFail($post->id);
+
         });
+
         return view('BlogPost.index',
             [
                 'post' => $post,
                 'conter' => $counter,
             ]);
+
     }
 
     /**
