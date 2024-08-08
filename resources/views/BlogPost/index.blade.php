@@ -63,7 +63,6 @@
                             <a href="{{ route('posts.index') }}" class="btn btn-secondary">Back to Blog</a>
                         </div>
                     </div>
-
                     <div class="card-body">
                         <h5>Comments</h5>
                         @forelse($post->comments as $comment)

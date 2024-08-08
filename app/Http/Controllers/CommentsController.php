@@ -35,6 +35,7 @@ class CommentsController extends Controller
         $comment->blog_post_id = $request->input('blog_post_id');
         $comment->user_id = Auth::user()->id;
         $comment->save();
+        session()->flash('status', 'Your comment is under review ... wait for the admin approval');
         return redirect()->route('posts.show', ['post'=> $comment->blog_post_id]);
 
     }
