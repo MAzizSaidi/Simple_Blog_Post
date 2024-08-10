@@ -35,6 +35,11 @@ class BlogPost extends Model
         return $this->belongsToMany('App\Models\Tags')->withTimestamps();
     }
 
+    public function images()
+    {
+        return $this->hasOne('App\Models\Images');
+    }
+
     public function scopeMostCommented( Builder $qurey)
     {
         //comments_count

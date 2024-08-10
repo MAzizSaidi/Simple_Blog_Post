@@ -22,6 +22,8 @@
                     </div>
 
                     <div class="card-body">
+                        <img src="{{ asset($post->images->path) }}" class="img-fluid">
+                    
                         <p class="card-text">{{ $post->content }}</p>
                     </div>
 
