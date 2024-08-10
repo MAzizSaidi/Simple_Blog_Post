@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+
 class  BlogPostController extends Controller
 {
     /**
@@ -59,6 +61,25 @@ class  BlogPostController extends Controller
         $post->content = $request->input('content');
         $post->user_id = Auth::user()->id;
         $post->save();
+        $hasFile = $request->hasFile('thumbnail');
+
+        if ($hasFile) {
+            $file = $request->file('thumbnail');
+            dump($file);
+            dump($file->getClientMimeType());
+            dump($file->getClientOriginalExtension());
+            // both way to store files in the public directory
+
+//            dump($file->store('thumbnails'));
+//            dump(Storage::disk('public')->putFile('thumbnails', $file));
+            //those are 2 ways to store the files withing the related models id ('BlogPost ID')
+//            dump($file->storeAs('thumbnails', $post->id) . '.' .$file->guessExtension());
+
+            dump(Storage::putFileAs('thumbnails', $file , $post->id . '.' . $file->guessExtension()));
+            die;
+        }
+
+
         $request->session()->flash('status', 'The resource was created successfully');
         return redirect()->route('posts.index');
     }
