@@ -22,8 +22,11 @@
                     </div>
 
                     <div class="card-body">
-                        <img src="{{ asset($post->images->path) }}" class="img-fluid">
-                    
+                        @if(isset($post->images->path))
+                            <img src="{{ asset('storage/' . $post->images->path) }}" class="img-fluid">
+                        @endif
+
+
                         <p class="card-text">{{ $post->content }}</p>
                     </div>
 

@@ -62,34 +62,21 @@ class  BlogPostController extends Controller
         $post->content = $request->input('content');
         $post->user_id = Auth::user()->id;
         $post->save();
-
+        // image handling need to be optimized cuz i'm adding extra methoud assests() to $post->image-path
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail');
-            $path = Storage::putFileAs('thumbnails', $path , $post->id . '.' . $path->guessExtension());
-            $post->images()->save(
-                Images::create(['path' => $path]),
-            );
+            $file = $request->file('thumbnail');
+            
+            $filePath = $file->storeAs('thumbnails', $post->id . '.' . $file->guessExtension());
+            $fileUrl = Storage::disk('local')->url($filePath);
 
-//            dump($file);
-//            dump($file->getClientMimeType());
-//            dump($file->getClientOriginalExtension());
-            // both way to store files in the public directory
 
-//            dump($file->store('thumbnails'));
-//            dump(Storage::disk('public')->putFile('thumbnails', $file));
-            //those are 2 ways to store the files withing the related models id ('BlogPost ID')
-//            dump($file->storeAs('thumbnails', $post->id) . '.' .$file->guessExtension());
-
-//            $pic = Storage::putFileAs('thumbnails', $file , $post->id . '.' . $file->guessExtension());
-//            dump(Storage::url($pic));
-//            dump(Storage::disk('local')->url($pic));
-//            die;
+            $post->images()->create(['path' => $fileUrl]);
         }
-
 
         $request->session()->flash('status', 'The resource was created successfully');
         return redirect()->route('posts.index');
     }
+
 
     /**
      * Display the specified resource.
