@@ -65,7 +65,7 @@ class  BlogPostController extends Controller
         // image handling need to be optimized cuz i'm adding extra methoud assests() to $post->image-path
         if ($request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
-            
+
             $filePath = $file->storeAs('thumbnails', $post->id . '.' . $file->guessExtension());
             $fileUrl = Storage::disk('local')->url($filePath);
 

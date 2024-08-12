@@ -23,10 +23,9 @@
 
                     <div class="card-body">
                         @if(isset($post->images->path))
-                            <img src="{{ asset('storage/' . $post->images->path) }}" class="img-fluid">
+                            <img src="{{ asset('storage/' . $post->images->path) }}" class="img-fluid" style="border-radius: 30px;">
                         @endif
-
-
+                        
                         <p class="card-text">{{ $post->content }}</p>
                     </div>
 
