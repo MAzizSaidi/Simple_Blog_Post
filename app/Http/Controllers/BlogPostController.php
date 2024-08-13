@@ -57,6 +57,15 @@ class  BlogPostController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation rule for image
+        ], [
+            'thumbnail.image' => 'The file must be an image.',
+            'thumbnail.mimes' => 'The image must be of type: jpeg, png, jpg, gif.',
+            'thumbnail.max' => 'The image size must not exceed 2MB.',
+        ]);
 
         //you need t oadd validated data to handle the file format added by user
         $post = new BlogPost();
@@ -145,6 +154,16 @@ class  BlogPostController extends Controller
      */
     public function update(Request $request, BlogPost $post)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation rule for image
+        ], [
+            'thumbnail.image' => 'The file must be an image.',
+            'thumbnail.mimes' => 'The image must be of type: jpeg, png, jpg, gif.',
+            'thumbnail.max' => 'The image size must not exceed 2MB.',
+        ]);
+
         $post->title = $request->input('title');
         $post->content = $request->input('content');
 
