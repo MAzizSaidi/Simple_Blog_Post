@@ -57,6 +57,8 @@ class  BlogPostController extends Controller
      */
     public function store(Request $request)
     {
+
+        //you need t oadd validated data to handle the file format added by user
         $post = new BlogPost();
         $post->title = $request->input('title');
         $post->content = $request->input('content');
@@ -65,10 +67,8 @@ class  BlogPostController extends Controller
         // image handling need to be optimized cuz i'm adding extra methoud assests() to $post->image-path
         if ($request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
-
             $filePath = $file->storeAs('thumbnails', $post->id . '.' . $file->guessExtension());
             $fileUrl = Storage::disk('local')->url($filePath);
-
 
             $post->images()->create(['path' => $fileUrl]);
         }
@@ -147,6 +147,21 @@ class  BlogPostController extends Controller
     {
         $post->title = $request->input('title');
         $post->content = $request->input('content');
+
+        if ($request->hasFile('thumbnail')) {
+            $file = $request->file('thumbnail');
+            $filePath = $file->storeAs('thumbnails', $post->id . '.' . $file->guessExtension());
+            if ($post->images){
+                Storage::delete($post->images->path);
+                $post->images->path = $filePath;
+            }
+            else {
+                $fileUrl = Storage::disk('local')->url($filePath);
+                $post->images()->create(['path' => $fileUrl]);
+            }
+
+        }
+
         $post->save();
         $request->session()->flash('status', 'The resource was updated successfully');
         return redirect()->route('posts.index');

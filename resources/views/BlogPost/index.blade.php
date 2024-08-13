@@ -4,12 +4,17 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <div class="card">
+                <div class="card"
+                     @if(isset($post->images->path))
+                         style="background-image: url('{{ asset( $post->images->path) }}'); background-size: cover; background-position: center;"
+                     @else
+                         style="color: black;"
+                    @endif>
                     <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start">
                         <div>
                             <h5>{{ $post->title }}</h5>
-                            <small class="text-muted">Posted on {{ $post->created_at->format('M d, Y') }}</small>
-                            @if ((new \Carbon\Carbon())->diffInSeconds($post->created_at) <= 10)
+                            <small style="color: white;">Posted on {{ $post->created_at->format('M d, Y') }}</small>
+                        @if ((new \Carbon\Carbon())->diffInSeconds($post->created_at) <= 10)
                                 @component('components.badge')
                                     Just added {{ $post->created_at->diffForHumans() }}
                                 @endcomponent
@@ -22,11 +27,10 @@
                     </div>
 
                     <div class="card-body">
-                        @if(isset($post->images->path))
-                            <img src="{{ asset('storage/' . $post->images->path) }}" class="img-fluid" style="border-radius: 30px;">
+                        @if(!isset($post->images->path))
+                            <p class="card-text">{{ $post->content }}</p>
+
                         @endif
-                        
-                        <p class="card-text">{{ $post->content }}</p>
                     </div>
 
                     <div class="card-footer d-flex flex-column flex-md-row justify-content-between align-items-start">
@@ -75,7 +79,7 @@
                                 <div class="media-body">
                                     <h6 class="mt-0">{{ $comment->user->name }}</h6>
                                     <p>{{ $comment->content }}</p>
-                                    <small class="text-muted">Added {{ $comment->created_at->diffForHumans() }}</small>
+                                    <small style="color: white" >Added {{ $comment->created_at->diffForHumans() }}</small>
                                 </div>
                             </div>
                         @empty
