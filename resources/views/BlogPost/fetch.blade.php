@@ -87,7 +87,9 @@
                                 </div>
                                 <div class="card-footer d-flex justify-content-between align-items-center">
                                     <small class="text-muted">Posted on {{ $post->created_at->format('M d, Y') }}</small>
-                                    <small class="text-muted">By {{ $post->user->name }}</small>
+                                    <small class="text-muted"> By
+                                        <a href="{{route('users.show',$post->user)}}"> {{ $post->user->name }}</a>
+                                    </small>
                                     @if ($post->comments_count)
                                         <small class="text-muted"> {{ $post->comments_count }} Comments</small>
                                     @else

@@ -3,7 +3,7 @@
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\PostsTagController;
-use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -35,5 +35,6 @@ Route::prefix('posts')->group(function () {
 });
 Route::post('/', [CommentsController::class, 'store'])->name('comments.store');
 
+Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
 
 
