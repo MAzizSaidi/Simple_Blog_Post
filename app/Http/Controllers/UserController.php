@@ -69,13 +69,14 @@ class UserController extends Controller
                 $user->image->path = $filePath;
             }
             else {
-                $fileUrl = Storage::disk('local')->url($filePath);
-                $user->image()->create(['path' => $fileUrl]);
+                $fileUrl = Storage::disk('public')->url($filePath);
+                $user->image()->make(['path' => $fileUrl]);
             }
         }
 
         $user->save();
-        return view('User.show', ['user' => $user]);
+        return redirect()->route('users.update', ['user' => $user]);
+
     }
 
     /**
