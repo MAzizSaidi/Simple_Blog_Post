@@ -6,7 +6,10 @@
 
         <!-- Display the user's current avatar -->
         <div class="mb-4">
-            <img src="#" alt="Avatar" class="img-thumbnail" style="width: 150px; height: 150px;">
+            @if(isset($user->image))
+                <img src="{{ "/storage" .asset($user->image->path)  }}" alt="Avatar" class="img-thumbnail rounded-circle avatar" style=" object-fit: cover;">
+            @endif
+
         </div>
 
         <!-- Display user's name -->
@@ -15,5 +18,6 @@
         </div>
 
         <a href="{{ route('users.edit', $user) }}" class="btn btn-primary">Edit Profile</a>
+        <a href="{{ route('posts.index') }}" class="btn btn-secondary">Go to Posts!</a>
     </div>
 @endsection

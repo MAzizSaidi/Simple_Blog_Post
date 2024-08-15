@@ -79,7 +79,7 @@ class  BlogPostController extends Controller
             $filePath = $file->storeAs('thumbnails', $post->id . '.' . $file->guessExtension());
             $fileUrl = Storage::disk('local')->url($filePath);
 
-            $post->images()->create(['path' => $fileUrl]);
+            $post->image()->create(['path' => $fileUrl]);
         }
 
         $request->session()->flash('status', 'The resource was created successfully');
@@ -170,15 +170,14 @@ class  BlogPostController extends Controller
         if ($request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
             $filePath = $file->storeAs('thumbnails', $post->id . '.' . $file->guessExtension());
-            if ($post->images){
-                Storage::delete($post->images->path);
-                $post->images->path = $filePath;
+            if ($post->image){
+                Storage::delete($post->image->path);
+                $post->image->path = $filePath;
             }
             else {
                 $fileUrl = Storage::disk('local')->url($filePath);
-                $post->images()->create(['path' => $fileUrl]);
+                $post->image()->create(['path' => $fileUrl]);
             }
-
         }
 
         $post->save();

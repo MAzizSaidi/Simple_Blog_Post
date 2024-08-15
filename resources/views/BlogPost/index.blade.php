@@ -5,10 +5,10 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card"
-                     @if(isset($post->images->path))
-                         style="background-image: url('{{ asset( $post->images->path) }}'); background-size: cover; background-position: center;"
+                     @if(isset($post->image->path))
+                         style="background-image: url('{{ asset( $post->image->path) }}'); background-size: cover; background-position: center;"
                      @else
-                         style="color: black;"
+                         style=" "
                     @endif>
                     <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start">
                         <div>
@@ -75,7 +75,7 @@
                         <h5>Comments</h5>
                         @forelse($post->comments as $comment)
                             <div class="media mb-3">
-                                <img src="https://via.placeholder.com/50" class="me-3 rounded-circle" alt="User avatar">
+                                <img src="{{ asset( $comment->user->image->path )  }}" class="img-thumbnail rounded-circle profile" alt="User avatar">
                                 <div class="media-body">
                                     <h6 class="mt-0">{{ $comment->user->name }}</h6>
                                     <p>{{ $comment->content }}</p>

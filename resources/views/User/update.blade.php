@@ -19,6 +19,7 @@
                     <div class="mb-3">
                         <label for="avatar" class="form-label">Change Avatar</label>
                         <input type="file" class="form-control" id="avatar" name="avatar">
+
                         @error('avatar')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -30,9 +31,11 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}" required>
+
                         @error('name')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
+
                     </div>
 
                     <!-- Submit Button -->

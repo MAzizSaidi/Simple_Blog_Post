@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -58,7 +59,23 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->name = $request->input('name');
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filePath = $file->storeAs('avatars', $user->id . '.' . $file->guessExtension());
+            if ($user->image){
+                Storage::delete($user->image->path);
+                $user->image->path = $filePath;
+            }
+            else {
+                $fileUrl = Storage::disk('local')->url($filePath);
+                $user->image()->create(['path' => $fileUrl]);
+            }
+        }
+
+        $user->save();
+        return view('User.show', ['user' => $user]);
     }
 
     /**
