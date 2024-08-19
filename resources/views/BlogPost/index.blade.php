@@ -75,7 +75,9 @@
                         <h5>Comments</h5>
                         @forelse($post->comments as $comment)
                             <div class="media mb-3">
+                                @if($comment->user->image)
                                 <img src="{{ asset( $comment->user->image->path )  }}" class="img-thumbnail rounded-circle profile" alt="User avatar">
+                                    @endif
                                 <div class="media-body">
                                     <h6 class="mt-0">{{ $comment->user->name }}</h6>
                                     <p>{{ $comment->content }}</p>
