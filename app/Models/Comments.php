@@ -11,14 +11,16 @@ class Comments extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+
     protected $fillable = [
         'content',
 
     ];
 
-    public function blogpost()
+    public function comments(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
-       return $this->belongsTo('App\Models\BlogPost');
+       return $this->morphTo();
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

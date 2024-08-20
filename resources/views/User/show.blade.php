@@ -6,9 +6,10 @@
 
         <!-- Display the user's current avatar -->
         <div class="mb-4">
-            @if(isset($user->image))
-                <img src="{{ asset($user->image->path)}}" alt="Avatar" class="img-thumbnail rounded-circle avatar" style=" object-fit: cover;">
-            @endif
+
+
+                <img src="{{ asset($user->image->path) }}" alt="Avatar" class="img-thumbnail rounded-circle avatar">
+
         </div>
 
         <!-- Display user's name -->

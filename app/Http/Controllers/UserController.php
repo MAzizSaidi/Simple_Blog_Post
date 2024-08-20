@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
@@ -64,18 +65,20 @@ class UserController extends Controller
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
             $filePath = $file->storeAs('avatars', $user->id . '.' . $file->guessExtension());
+
             if ($user->image){
                 Storage::delete($user->image->path);
                 $user->image->path = $filePath;
             }
-            else {
-                $fileUrl = Storage::disk('public')->url($filePath);
-                $user->image()->make(['path' => $fileUrl]);
-            }
+
+                $fileUrl = Storage::disk('local')->url($filePath);
+                $user->image()->create(['path' => $fileUrl]);
+
         }
 
         $user->save();
-        return redirect()->route('users.update', ['user' => $user]);
+//        dd((Storage::disk('local')->url($user->image->path)));
+        return redirect()->route('users.show', ['user' => $user]);
 
     }
 

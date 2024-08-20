@@ -4,14 +4,13 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-8 offset-md-2">
+
+{{--                 scroll between the existed files and try to print this image--}}
+
                 <div class="card"
-                     @if(isset($post->image->path))
-                         style="background-image: url('{{ asset( $post->image->path) }}'); background-size: cover; background-position: center;"
-                     @else
-                         style=" "
-                    @endif>
+                <div class="card" style="background-image: url('{{ URL::asset($post->image->path) }}');">
                     <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start">
-                        <div>
+                    <div>
                             <h5>{{ $post->title }}</h5>
                             <small style="color: white;">Posted on {{ $post->created_at->format('M d, Y') }}</small>
                         @if ((new \Carbon\Carbon())->diffInSeconds($post->created_at) <= 10)
@@ -75,9 +74,15 @@
                         <h5>Comments</h5>
                         @forelse($post->comments as $comment)
                             <div class="media mb-3">
+<<<<<<< Updated upstream
                                 @if($comment->user->image)
                                 <img src="{{ asset( $comment->user->image->path )  }}" class="img-thumbnail rounded-circle profile" alt="User avatar">
                                     @endif
+=======
+                                @if ($comment->user->image)
+                                <img src="{{ asset( $comment->user->image->path )  }}" class="img-thumbnail rounded-circle profile" alt="User avatar">
+                                @endif
+>>>>>>> Stashed changes
                                 <div class="media-body">
                                     <h6 class="mt-0">{{ $comment->user->name }}</h6>
                                     <p>{{ $comment->content }}</p>

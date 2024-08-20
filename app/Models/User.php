@@ -54,8 +54,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Comments');
     }
+    public function commentsOn(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany('App\Models\Comments', 'commentable');
+    }
 
-    public function image()
+    public function image(): \Illuminate\Database\Eloquent\Relations\MorphOne
     {
         return $this->morphOne('App\Models\Images', 'imageable');
     }

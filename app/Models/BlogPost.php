@@ -20,9 +20,9 @@ class BlogPost extends Model
         'content',
     ];
 
-    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function comments(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
-       return $this->hasMany('App\Models\Comments');
+       return $this->morphMany('App\Models\Comments', 'commentable');
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -30,12 +30,12 @@ class BlogPost extends Model
        return $this->belongsTo('App\Models\User');
     }
 
-    public function tags()
+    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany('App\Models\Tags')->withTimestamps();
     }
 
-    public function image()
+    public function image(): \Illuminate\Database\Eloquent\Relations\MorphOne
     {
         return $this->morphOne('App\Models\Images', 'imageable');
     }
@@ -61,6 +61,10 @@ class BlogPost extends Model
 
         static::updating(function (BlogPost $blogpost) {
            Cache::forget("blog-post-{$blogpost->id}");
+        });
+
+        static::creating(function (BlogPost $blogpost) {
+            Cache::forget("blog-post-{$blogpost->id}");
         });
 
         static::restoring(callback: function (BlogPost $blogpost) {

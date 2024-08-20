@@ -21,13 +21,13 @@ class  BlogPostController extends Controller
     {
         $posts = BlogPost::withCount('comments')->with(['user','tags'])->get();
 
-        $mostCommented = Cache::remember('mostCommented', now()->addSeconds(20) , function () {
+        $mostCommented = Cache::remember('mostCommented', now()->addSeconds(0) , function () {
            return BlogPost::MostCommented()->take(5)->get();
         });
-        $activeUser = Cache::remember('activeUser', now()->addSeconds(20) , function () {
+        $activeUser = Cache::remember('activeUser', now()->addSeconds(0) , function () {
             return User::MostActiveUser()->take(5)->get();
         });
-        $MostActiveUserLastMonth = Cache::remember('MostActiveUserLastMonth', now()->addSeconds(20) , function () {
+        $MostActiveUserLastMonth = Cache::remember('MostActiveUserLastMonth', now()->addSeconds(0) , function () {
             return User::MostActiveUserLastMonth()->take(5)->get();
         });
 
@@ -73,7 +73,9 @@ class  BlogPostController extends Controller
         $post->content = $request->input('content');
         $post->user_id = Auth::user()->id;
         $post->save();
+
         // image handling need to be optimized cuz i'm adding extra methoud assests() to $post->image-path
+
         if ($request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
             $filePath = $file->storeAs('thumbnails', $post->id . '.' . $file->guessExtension());
@@ -180,9 +182,8 @@ class  BlogPostController extends Controller
             }
         }
 
-        $post->save();
         $request->session()->flash('status', 'The resource was updated successfully');
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index' , ['post' => $post]);
     }
 
     /**

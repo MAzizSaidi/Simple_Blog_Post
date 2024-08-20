@@ -28,16 +28,18 @@ class CommentsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $comment = new Comments();
         $comment->content = $request->input('content');
-        $comment->blog_post_id = $request->input('blog_post_id');
+        $comment->commentable_id = $request->input('blog_post_id');
+        $comment->commentable_type = Comments::class;
         $comment->user_id = Auth::user()->id;
         $comment->save();
         session()->flash('status', 'Your comment is under review ... wait for the admin approval');
-        return redirect()->route('posts.show', ['post'=> $comment->blog_post_id]);
+        return redirect()->route('posts.show', ['post'=> $comment->commentable_id]);
 
+//        handle the comments caching it won't be prtinted too'
     }
 
     /**
