@@ -82,11 +82,6 @@
                                 @if($comment->user->image)
                                 <img src="{{ asset( $comment->user->image->path )  }}" class="img-thumbnail rounded-circle profile" alt="User avatar">
                                     @endif
-
-                                @if ($comment->user->image)
-                                <img src="{{ asset( $comment->user->image->path )  }}" class="img-thumbnail rounded-circle profile" alt="User avatar">
-                                @endif
-
                                 <div class="media-body">
                                     <h6 class="mt-0">{{ $comment->user->name }}</h6>
                                     <p>{{ $comment->content }}</p>
