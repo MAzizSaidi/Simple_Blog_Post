@@ -15,6 +15,7 @@ class BlogPost extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $fillable = [
         'title',
         'content',
@@ -63,9 +64,6 @@ class BlogPost extends Model
            Cache::forget("blog-post-{$blogpost->id}");
         });
 
-        static::creating(function (BlogPost $blogpost) {
-            Cache::forget("blog-post-{$blogpost->id}");
-        });
 
         static::restoring(callback: function (BlogPost $blogpost) {
          $blogpost->comments()->restore();

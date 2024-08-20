@@ -7,8 +7,9 @@
         <!-- Display the user's current avatar -->
         <div class="mb-4">
 
-
-                <img src="{{ asset($user->image->path) }}" alt="Avatar" class="img-thumbnail rounded-circle avatar">
+            @if(isset($user->image))
+                <img src="{{ $user->image->path }}" alt="Avatar" class="img-thumbnail rounded-circle avatar">
+            @endif
 
         </div>
 
