@@ -33,7 +33,7 @@ class CommentsController extends Controller
         $comment = new Comments();
         $comment->content = $request->input('content');
         $comment->commentable_id = $request->input('blog_post_id');
-        $comment->commentable_type = Comments::class;
+        $comment->commentable_type = BlogPost::class; // changed this to BlogPost model
         $comment->user_id = Auth::user()->id;
         $comment->save();
         session()->flash('status', 'Your comment is under review ... wait for the admin approval');

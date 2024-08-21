@@ -21,13 +21,13 @@ class  BlogPostController extends Controller
     {
         $posts = BlogPost::withCount('comments')->with(['user','tags'])->get();
 
-        $mostCommented = Cache::remember('mostCommented', now()->addSeconds(0) , function () {
+        $mostCommented = Cache::remember('mostCommented', now()->addSeconds(60) , function () {
            return BlogPost::MostCommented()->take(5)->get();
         });
-        $activeUser = Cache::remember('activeUser', now()->addSeconds(0) , function () {
+        $activeUser = Cache::remember('activeUser', now()->addSeconds(60) , function () {
             return User::MostActiveUser()->take(5)->get();
         });
-        $MostActiveUserLastMonth = Cache::remember('MostActiveUserLastMonth', now()->addSeconds(0) , function () {
+        $MostActiveUserLastMonth = Cache::remember('MostActiveUserLastMonth', now()->addSeconds(60) , function () {
             return User::MostActiveUserLastMonth()->take(5)->get();
         });
 

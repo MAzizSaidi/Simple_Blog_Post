@@ -7,7 +7,7 @@
 
 {{--                 scroll between the existed files and try to print this image--}}
 
-                <<div class="card"
+                <div class="card"
                       @if(isset($post->image))
                           style="background-image: url('{{ asset($post->image->path) }}');"
                     @endif>
@@ -77,20 +77,26 @@
                     <div class="card-body">
                         <h5>Comments</h5>
                         @forelse($post->comments as $comment)
-                            <div class="media mb-3">
-
-                                @if($comment->user->image)
-                                <img src="{{ asset( $comment->user->image->path )  }}" class="img-thumbnail rounded-circle profile" alt="User avatar">
+                            <div class="comment-block mb-3 p-3 border rounded bg-light">
+                                <div class="d-flex align-items-start mb-2">
+                                    @if($comment->user->image)
+                                        <img src="{{ asset($comment->user->image->path) }}" class="img-thumbnail rounded-circle profile me-3" alt="User avatar" style="width: 50px; height: 50px;">
                                     @endif
-                                <div class="media-body">
-                                    <h6 class="mt-0">{{ $comment->user->name }}</h6>
-                                    <p>{{ $comment->content }}</p>
-                                    <small style="color: white" >Added {{ $comment->created_at->diffForHumans() }}</small>
+                                    <div>
+                                        <a href="{{ route('users.show', ['user' => $comment->user]) }}" class="fancy-link text-decoration-none">
+                                            <h6 class="mt-0 mb-1">{{ $comment->user->name }}</h6>
+                                        </a>
+                                        <p class="comment-content mb-1" style="color: black;">{{ $comment->content }}</p>
+                                        <small class="text-muted">Added {{ $comment->created_at->diffForHumans() }}</small>
+                                    </div>
                                 </div>
                             </div>
                         @empty
-                            <small>No comments yet. Add your thoughts below.</small>
+                            <small style="color: black;">No comments yet. Add your thoughts below.</small>
                         @endforelse
+
+
+
                     </div>
                 </div>
             </div>
