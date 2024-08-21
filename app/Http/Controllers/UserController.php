@@ -64,23 +64,27 @@ class UserController extends Controller
 
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
-            $filePath = $file->storeAs('avatars', $user->id . '.' . $file->guessExtension());
+            $filePath = $file->storeAs('avatars', $user->id . '.' . $file->guessExtension(), 'public');
 
-            if ($user->image){
-                Storage::delete($user->image->path);
+            if ($user->image) {
+                // Correct path for deletion
+                Storage::disk('public')->delete($user->image->path);
+
+                // Update the image path in the existing image record
                 $user->image->path = $filePath;
+                $user->image->save();
+            } else {
+                $filePath = Storage::disk('local')->url($filePath);
+                $user->image()->create(['path' => $filePath]);
             }
-
-                $fileUrl = Storage::disk('local')->url($filePath);
-                $user->image()->create(['path' => $fileUrl]);
-
         }
 
         $user->save();
-//        dd((Storage::disk('local')->url($user->image->path)));
+//        dd($filePath);
         return redirect()->route('users.show', ['user' => $user]);
-
     }
+
+
 
     /**
      * Remove the specified resource from storage.
