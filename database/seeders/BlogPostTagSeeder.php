@@ -25,7 +25,7 @@ class BlogPostTagSeeder extends Seeder
         BlogPost::all()->each(function (BlogPost $post) use ($howManyMin, $howManyMax) {
             $take = random_int($howManyMin, $howManyMax);
             $tags = Tags::inRandomOrder()->take($take)->get()->pluck('id');
-            $post->tags()->sync($tags);
+            $post->tags()->attach($tags);
         });
 
 

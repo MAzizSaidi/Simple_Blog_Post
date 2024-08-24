@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Cache::forget('');
+        $this->command->ask('do you want to refresh the database before start seeding it?','yes');
+        $this->command->call('migrate:refresh');
+
+        $this->command->info('Database has been refreshed.');
 
         $this->call([
                 UserTableSeeder::class,

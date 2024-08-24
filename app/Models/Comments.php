@@ -22,6 +22,10 @@ class Comments extends Model
     {
        return $this->morphTo();
     }
+    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->morphToMany('App\Models\Tags', 'taggable')->withTimestamps();
+    }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

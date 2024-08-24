@@ -33,7 +33,7 @@ class BlogPost extends Model
 
     public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Tags')->withTimestamps();
+        return $this->morphToMany('App\Models\Tags', 'taggable')->withTimestamps();
     }
 
     public function image(): \Illuminate\Database\Eloquent\Relations\MorphOne

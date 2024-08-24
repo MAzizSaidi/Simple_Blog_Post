@@ -13,8 +13,12 @@ class Tags extends Model
         'name',
     ];
 
-    public function blogposts()
+    public function blogposts(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
-        return $this->belongsToMany('App\Models\BlogPost')->withTimestamps();
+        return $this->morphedByMany('App\Models\BlogPost', 'taggable')->withTimestamps();
+    }
+    public function Comments(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    {
+        return $this->morphedByMany('App\Models\Comments', 'taggable')->withTimestamps();
     }
 }
