@@ -6,11 +6,10 @@ use App\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use App\Traits\Taggable;
 class Comments extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory , SoftDeletes, Taggable ;
 
 
     protected $fillable = [
@@ -22,10 +21,7 @@ class Comments extends Model
     {
        return $this->morphTo();
     }
-    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->morphToMany('App\Models\Tags', 'taggable')->withTimestamps();
-    }
+
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

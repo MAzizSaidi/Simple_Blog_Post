@@ -81,10 +81,15 @@
                                     <?php if($comment->user->image): ?>
                                         <img src="<?php echo e(asset($comment->user->image->path)); ?>" class="img-thumbnail rounded-circle profile me-3" alt="User avatar" style="width: 50px; height: 50px;">
                                     <?php endif; ?>
-                                    <div>
-                                        <a href="<?php echo e(route('users.show', ['user' => $comment->user])); ?>" class="fancy-link text-decoration-none">
-                                            <h6 class="mt-0 mb-1"><?php echo e($comment->user->name); ?></h6>
-                                        </a>
+                                    <div class="w-100">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <a href="<?php echo e(route('users.show', ['user' => $comment->user])); ?>" class="fancy-link text-decoration-none">
+                                                <h6 class="mt-0 mb-1"><?php echo e($comment->user->name); ?></h6>
+                                            </a>
+                                            <div>
+                                                <?php $__env->startComponent('components.tag', ['tags' => $comment->tags]); ?> <?php echo $__env->renderComponent(); ?>
+                                            </div>
+                                        </div>
                                         <p class="comment-content mb-1" style="color: black;"><?php echo e($comment->content); ?></p>
                                         <small class="text-muted">Added <?php echo e($comment->created_at->diffForHumans()); ?></small>
                                     </div>
@@ -93,8 +98,6 @@
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <small style="color: black;">No comments yet. Add your thoughts below.</small>
                         <?php endif; ?>
-
-
 
                     </div>
                 </div>

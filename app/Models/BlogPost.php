@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
-
+use App\Traits\Taggable;
 class BlogPost extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory , SoftDeletes, Taggable;
+
 
     protected $fillable = [
         'title',
@@ -31,10 +31,7 @@ class BlogPost extends Model
        return $this->belongsTo('App\Models\User');
     }
 
-    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->morphToMany('App\Models\Tags', 'taggable')->withTimestamps();
-    }
+
 
     public function image(): \Illuminate\Database\Eloquent\Relations\MorphOne
     {
