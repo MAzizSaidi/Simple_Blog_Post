@@ -3,6 +3,7 @@
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\PostsTagController;
+use App\Http\Controllers\UserCommentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -33,8 +34,9 @@ Route::prefix('posts')->group(function () {
     Route::Patch('/{post}', [BlogPostController::class, 'restore'])->name('posts.restore');
     Route::get('/tags/{tag}', [PostsTagController::class, 'index'])->name('posts.tag.index');
 });
-Route::post('/', [CommentsController::class, 'store'])->name('comments.store');
+    Route::post('/', [CommentsController::class, 'store'])->name('comments.store');
 
-Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
+    Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
+    Route::post('users/comment',[UserCommentController::class, 'store'])->name('users.comment.store');
 
 
