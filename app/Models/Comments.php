@@ -17,7 +17,7 @@ class Comments extends Model
 
     ];
 
-    public function comments(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    public function commentable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
        return $this->morphTo();
     }

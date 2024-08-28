@@ -50,10 +50,10 @@ class User extends Authenticatable
     {
        return $this->hasMany('App\Models\BlogPost');
     }
-    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany('App\Models\Comments');
-    }
+//    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+//    {
+//        return $this->hasMany('App\Models\Comments');
+//    }
     public function commentsOn(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
         return $this->morphMany('App\Models\Comments', 'commentable');
