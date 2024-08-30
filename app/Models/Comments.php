@@ -13,8 +13,7 @@ class Comments extends Model
 
 
     protected $fillable = [
-        'content',
-
+        'content', 'commentable_id', 'commentable_type', 'user_id',
     ];
 
     public function commentable(): \Illuminate\Database\Eloquent\Relations\MorphTo

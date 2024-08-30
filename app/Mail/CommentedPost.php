@@ -13,7 +13,9 @@ use Illuminate\Queue\SerializesModels;
 class CommentedPost extends Mailable
 {
     use Queueable, SerializesModels;
-    public $comment;
+
+    private Comments $comment;
+
     /**
      * Create a new message instance.
      */
@@ -27,11 +29,9 @@ class CommentedPost extends Mailable
      */
     public function envelope(): Envelope
     {
-
         return new Envelope(
-            subject: 'New Comment on Your Post: ' . $this->comment->commentable->title,
+            subject: 'New Comment Notification'
         );
-
     }
 
     /**
@@ -42,7 +42,7 @@ class CommentedPost extends Mailable
         return new Content(
             view: 'Mail.Posts.CommentedPost',
             with: [
-                'comment' => $this->comment,
+                'commentContent' => $this->comment->content,
             ],
         );
     }

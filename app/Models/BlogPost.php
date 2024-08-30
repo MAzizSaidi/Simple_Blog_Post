@@ -19,6 +19,8 @@ class BlogPost extends Model
     protected $fillable = [
         'title',
         'content',
+        'commentable_id',
+        'commentable_type',
     ];
 
     public function comments(): \Illuminate\Database\Eloquent\Relations\MorphMany

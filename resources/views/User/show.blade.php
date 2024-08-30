@@ -62,7 +62,6 @@
         document.getElementById('commentBtn').addEventListener('click', function() {
             this.style.display = 'none';
             document.getElementById('commentField').style.display = 'block';
-            
         });
     </script>
 @endsection

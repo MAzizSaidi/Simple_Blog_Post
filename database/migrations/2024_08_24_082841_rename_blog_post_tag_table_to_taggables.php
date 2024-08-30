@@ -27,20 +27,18 @@ return new class extends Migration
      */
     public function down(): void
     {
-
         Schema::table('taggables', function (Blueprint $table) {
             $table->dropMorphs('taggable');
         });
 
         Schema::rename('taggables', 'blog_post_tags');
 
-//        Schema::disableForeignKeyConstraints();
-
         Schema::table('blog_post_tags', function (Blueprint $table) {
             $table->unsignedBigInteger('blog_post_id')->index();
-            $table->foreign('blog_post_id')->references('id')->on('blog_posts')->onDelete('cascade');
         });
 
-//        Schema::enableForeignKeyConstraints();
+        Schema::table('blog_post_tags', function (Blueprint $table) {
+            $table->foreign('blog_post_id')->references('id')->on('blog_posts')->onDelete('cascade');
+        });
     }
 };

@@ -6,8 +6,9 @@ use App\Http\Controllers\PostsTagController;
 use App\Http\Controllers\UserCommentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-
+use App\Mail\SimpleTestMail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,3 +41,21 @@ Route::prefix('posts')->group(function () {
     Route::post('users/comment',[UserCommentController::class, 'store'])->name('users.comment.store');
 
 
+
+Route::get('/send-test-email', function () {
+    $fromAddress = env('MAIL_FROM_ADDRESS', 'default@example.com');
+    $fromName = env('MAIL_FROM_NAME', 'Default Name');
+
+    // Use the Mailtrap test email address
+    $testEmailAddress = 'mailtrap-load-test-12ab34+1@inbox.mailtrap.io';
+
+    try {
+        Mail::mailer('smtp')
+            ->to($testEmailAddress)
+            ->send((new SimpleTestMail())->from($fromAddress, $fromName));
+
+        return 'Test email sent!';
+    } catch (\Exception $e) {
+        return 'Failed to send email: ' . $e->getMessage();
+    }
+});
