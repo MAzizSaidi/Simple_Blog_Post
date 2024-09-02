@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use App\Traits\Taggable;
+
 class BlogPost extends Model
 {
-    use HasFactory , SoftDeletes, Taggable;
-
+    use HasFactory, SoftDeletes, Taggable;
 
     protected $fillable = [
         'title',
@@ -25,25 +25,22 @@ class BlogPost extends Model
 
     public function comments(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
-       return $this->morphMany('App\Models\Comments', 'commentable');
+        return $this->morphMany('App\Models\Comments', 'commentable');
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-       return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User');
     }
-
-
 
     public function image(): \Illuminate\Database\Eloquent\Relations\MorphOne
     {
         return $this->morphOne('App\Models\Images', 'imageable');
     }
 
-    public function scopeMostCommented( Builder $qurey)
+    public function scopeMostCommented(Builder $query)
     {
-        //comments_count
-            $qurey->withcount('comments')->orderBy('comments_count' , 'desc');
+        $query->withCount('comments')->orderBy('comments_count', 'desc');
     }
 
     public static function boot(): void
@@ -60,12 +57,11 @@ class BlogPost extends Model
         });
 
         static::updating(function (BlogPost $blogpost) {
-           Cache::forget("blog-post-{$blogpost->id}");
+            Cache::forget("blog-post-{$blogpost->id}");
         });
 
-
-        static::restoring(callback: function (BlogPost $blogpost) {
-         $blogpost->comments()->restore();
+        static::restoring(function (BlogPost $blogpost) {
+            $blogpost->comments()->restore();
         });
     }
 }

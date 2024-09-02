@@ -29,6 +29,7 @@ class UserCommentController extends Controller
 //    dd($comment->toArray(), $comment->commentable);
     // Check if commentable is not null before sending the email
     $comment->load('commentable');
+
     if ($comment->commentable) {
         Mail::to($comment->commentable->email)->send(
             new CommentedPost($comment)

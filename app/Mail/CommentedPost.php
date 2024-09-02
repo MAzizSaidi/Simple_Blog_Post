@@ -14,14 +14,14 @@ class CommentedPost extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private Comments $comment;
+    public Comments $comment;
 
     /**
      * Create a new message instance.
      */
     public function __construct(Comments $comment)
     {
-        $this->comment = $comment;
+        $this->comment = $comment->load('commentable');
     }
 
     /**
@@ -43,6 +43,8 @@ class CommentedPost extends Mailable
             view: 'Mail.Posts.CommentedPost',
             with: [
                 'commentContent' => $this->comment->content,
+                'postTitle' => $this->comment->commentable->title,
+                'user' => $this->comment->user->name,
             ],
         );
     }

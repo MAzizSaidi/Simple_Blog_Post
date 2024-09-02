@@ -42,20 +42,3 @@ Route::prefix('posts')->group(function () {
 
 
 
-Route::get('/send-test-email', function () {
-    $fromAddress = env('MAIL_FROM_ADDRESS', 'default@example.com');
-    $fromName = env('MAIL_FROM_NAME', 'Default Name');
-
-    // Use the Mailtrap test email address
-    $testEmailAddress = 'mailtrap-load-test-12ab34+1@inbox.mailtrap.io';
-
-    try {
-        Mail::mailer('smtp')
-            ->to($testEmailAddress)
-            ->send((new SimpleTestMail())->from($fromAddress, $fromName));
-
-        return 'Test email sent!';
-    } catch (\Exception $e) {
-        return 'Failed to send email: ' . $e->getMessage();
-    }
-});

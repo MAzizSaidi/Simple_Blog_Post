@@ -34,28 +34,27 @@ class CommentsController extends Controller
      */
 public function store(BlogPost $post, Request $request): \Illuminate\Http\RedirectResponse
 {
+
     // Debugging statement to check the input
-    dump($request->input('blog_post_id')); // dump result is 10
+//    dump($request->input('blog_post_id')); // dump result is 33
 
     // Create the comment with the correct blog post ID from the request input
-    $comment = $post->comments()->create([
+    $comment = Comments::create([
         'content' => $request->input('content'),
-//        'commentable_id' => $request->input('blog_post_id'), // Get the blog post ID from the request input
-//        'commentable_type' => BlogPost::class,
+        'commentable_id' => $request->input('blog_post_id'),
+        'commentable_type' => BlogPost::class,
         'user_id' => Auth::id(),
     ]);
 
-
-
-    // Debugging statements to check the values after saving
-    dump($comment->commentable_id); // Should now be set correctly
-    dump($comment->commentable_type); // Should be BlogPost::class
- 
-    // Check if the post has a user and send an email
-    if ($post->user) {
-        Mail::to($post->user)->send(
+    $comment->load('commentable');
+//    dd($comment->commentable->user);
+    if ($comment->commentable) {
+        Mail::to($comment->commentable->user->email)->send(
             new CommentedPost($comment)
         );
+    } else {
+        // Handle the case where commentable is null
+        session()->flash('error', 'Unable to send email. Commentable is null.');
     }
 
     // Flash a status message and redirect
