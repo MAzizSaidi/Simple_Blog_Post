@@ -12,6 +12,10 @@
             margin: 0;
             padding: 0;
         }
+
+        h1 {
+            color: #007bff;
+        }
         .container {
             background-color: #ffffff;
             border-radius: 12px;
@@ -26,24 +30,33 @@
             text-align: center;
             margin-bottom: 30px;
         }
-        .header img {
+        .header img.logo {
             max-width: 100px;
             margin-bottom: 20px;
-        }
-        .header h1 {
-            font-size: 28px;
-            margin: 0;
-            color: #007BFF;
         }
         .content {
             font-size: 16px;
             line-height: 1.6;
             color: #555;
         }
-        .content h2 {
-            font-size: 24px;
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .user-info img.user-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid #2990ff; /* Adds a rounded gray border */
+        }
+        .user-info-text {
+            font-size: 16px;
             color: #333;
-            margin-bottom: 15px;
+        }
+        .user-info-text strong {
+            color: #007BFF;
         }
         .comment-box {
             background-color: #f8f9fa;
@@ -70,16 +83,25 @@
 <body>
 <div class="container">
     <div class="header">
-        <img src="https://yourlogo.com/logo.png" alt="Your Company Logo">
+        <img src="#" alt="Your Company Logo" class="logo">
         <h1>New Comment Notification</h1>
     </div>
     <div class="content">
-        <h2>{{ $comment->user->name }} has commented on your post:</h2>
+        <!-- User info container -->
+        <div class="user-info">
+            <img src="{{ $userAvatar ? $message->embed($userAvatar) : 'public/images/default/default-avatar-icon-of-social-media-user-vector.jpg' }}"  class="user-image">
+            <div class="user-info-text">
+                <a href="{{ route('users.show', $comment->user->id) }}">
+                    <strong>{{ $comment->user->name }}</strong>
+                </a>
+                has commented on your post:
+            </div>
+        </div>
         <p>Your post titled "<strong>{{ $comment->commentable->title }}</strong>" has received a new comment:</p>
         <div class="comment-box">
             "{{ $comment->content }}"
         </div>
-        <a href="{{route('posts.show', $comment->commentable->id)}}">View Post</a>
+        <a href="{{ route('posts.show', $comment->commentable->id) }}">View Post</a>
     </div>
     <div class="footer">
         &copy; 2024 Your Company. All rights reserved. <br>

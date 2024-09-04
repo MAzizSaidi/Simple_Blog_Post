@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use App\Mail\SimpleTestMail;
+use App\Mail\CommentedPost;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +19,14 @@ use App\Mail\SimpleTestMail;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/mail', function () {
+    $comment = App\Models\Comments::find(279);
+
+   $test = new CommentedPost($comment);
+   return $test;
+});
+
 
 Auth::routes();
 
@@ -39,6 +47,5 @@ Route::prefix('posts')->group(function () {
 
     Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
     Route::post('users/comment',[UserCommentController::class, 'store'])->name('users.comment.store');
-
 
 
