@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Mail;
 
 use App\Models\Comments;
@@ -10,6 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Attachment;
+use Illuminate\Support\Facades\Storage;
 
 class CommentedPost extends Mailable
 {
@@ -40,32 +40,19 @@ class CommentedPost extends Mailable
      */
     public function content(): Content
     {
-        // Resolve the full path of the user avatar
+        // Resolve the user avatar path
         $imagePath = $this->comment->user->image->path ?? null;
+        $userAvatarUrl = null;
 
         if ($imagePath) {
-            // Normalize the image path (remove leading slashes if any)
-            $normalizedPath = ltrim($imagePath, '/');
-//            dd($normalizedPath);
-            // Determine the correct path based on the format
-            if (str_starts_with($normalizedPath, 'images/profile_pics')) {
-                // Path for dummy data or specific format
-                $userAvatarPath = public_path($normalizedPath);
-            } elseif (str_starts_with($normalizedPath, 'storage/avatars/')) {
-                // Path for actual user uploads
-                $userAvatarPath = public_path($normalizedPath);
-            } else {
-                // Handle unknown path formats
-                $userAvatarPath = null;
+            // Generate the public URL for the image using asset()
+            if (str_starts_with($imagePath, 'images/profile_pics')) {
+                $userAvatarUrl = $imagePath ; // Correctly generate URL for public images
+//                dd($userAvatarUrl);
+            } elseif (str_starts_with($imagePath, 'storage/avatars/')) {
+                $userAvatarUrl = Storage::url($imagePath);  // Correctly generate URL for storage files
             }
-        } else {
-            $userAvatarPath = null; // No image path found
         }
-
-        // Debugging: Check what the resolved path is
-//        dd($userAvatarPath);
-
-        // ... rest of your content logic
 
         return new Content(
             view: 'Mail.Posts.CommentedPost',
@@ -73,7 +60,7 @@ class CommentedPost extends Mailable
                 'commentContent' => $this->comment->content,
                 'postTitle' => $this->comment->commentable->title,
                 'user' => $this->comment->user->name,
-                'userAvatar' => $userAvatarPath,
+                'userAvatar' => $userAvatarUrl,  // URL used in email template
             ],
         );
     }
@@ -86,20 +73,26 @@ class CommentedPost extends Mailable
     public function attachments(): array
     {
         $imagePath = $this->comment->user->image->path ?? null;
+        $attachmentPath = null;
 
-        // Determine the correct attachment path
-        if ($imagePath && str_starts_with($imagePath, 'images/profile_pics')) {
-            $attachmentPath = public_path($imagePath);
-        } elseif ($imagePath && str_starts_with($imagePath, 'storage/avatars/')) {
-            $attachmentPath = public_path($imagePath);
-        } else {
-            $attachmentPath = null;
+        if ($imagePath) {
+            // Resolve the correct file path for the attachment
+            if (str_starts_with($imagePath, 'images/profile_pics')) {
+                $attachmentPath = public_path($imagePath);  // File path for public images
+            } elseif (str_starts_with($imagePath, 'storage/avatars/')) {
+                $attachmentPath = storage_path('app/public/avatars/' . basename($imagePath));  // File path for storage images
+            }
+
+            // Check if the file exists before attaching
+            if ($attachmentPath && file_exists($attachmentPath)) {
+                return [
+                    Attachment::fromPath($attachmentPath)
+                        ->as('user-avatar.jpg')
+                        ->withMime('image/jpeg'),
+                ];
+            }
         }
 
-        return $attachmentPath ? [
-            Attachment::fromPath($attachmentPath)
-                ->as('user-avatar.jpg')
-                ->withMime('image/jpeg'),
-        ] : [];
+        return [];
     }
 }
