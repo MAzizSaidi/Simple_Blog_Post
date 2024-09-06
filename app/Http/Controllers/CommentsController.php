@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 
 class CommentsController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -45,13 +46,13 @@ public function store(BlogPost $post, Request $request): \Illuminate\Http\Redire
         'commentable_type' => BlogPost::class,
         'user_id' => Auth::id(),
     ]);
-
     $comment->load('commentable');
 //    dd($comment->commentable->user);
     if ($comment->commentable) {
-        Mail::to($comment->commentable->user->email)->send(
+
+        Mail::to($comment->commentable->user->email)->queue(
             new CommentedPost($comment)
-        );
+      );
     } else {
         // Handle the case where commentable is null
         session()->flash('error', 'Unable to send email. Commentable is null.');

@@ -9,9 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Attachment;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class CommentedPost extends Mailable
+class CommentedPost extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -40,29 +41,33 @@ class CommentedPost extends Mailable
      */
     public function content(): Content
     {
-        // Resolve the user avatar path
-        $imagePath = $this->comment->user->image->path ?? null;
-        $userAvatarUrl = null;
+        try {
+            // Resolve the user avatar path
+            $imagePath = $this->comment->user->image->path ?? null;
+            $userAvatarUrl = null;
 
-        if ($imagePath) {
-            // Generate the public URL for the image using asset()
-            if (str_starts_with($imagePath, 'images/profile_pics')) {
-                $userAvatarUrl = $imagePath ; // Correctly generate URL for public images
-//                dd($userAvatarUrl);
-            } elseif (str_starts_with($imagePath, 'storage/avatars/')) {
-                $userAvatarUrl = Storage::url($imagePath);  // Correctly generate URL for storage files
+            if ($imagePath) {
+                // Generate the public URL for the image using asset()
+                if (str_starts_with($imagePath, 'images/profile_pics')) {
+                    $userAvatarUrl = public_path($imagePath); // Correctly generate URL for public images
+                } elseif (str_starts_with($imagePath, 'storage/avatars/')) {
+                    $userAvatarUrl = Storage::url($imagePath);  // Correctly generate URL for storage files
+                }
             }
-        }
 
-        return new Content(
-            view: 'Mail.Posts.CommentedPost',
-            with: [
-                'commentContent' => $this->comment->content,
-                'postTitle' => $this->comment->commentable->title,
-                'user' => $this->comment->user->name,
-                'userAvatar' => $userAvatarUrl,  // URL used in email template
-            ],
-        );
+            return new Content(
+                view: 'Mail.Posts.CommentedPost',
+                with: [
+                    'commentContent' => $this->comment->content,
+                    'postTitle' => $this->comment->commentable->title,
+                    'user' => $this->comment->user->name,
+                    'userAvatar' => $userAvatarUrl,  // URL used in email template
+                ],
+            );
+        } catch (\Exception $e) {
+            Log::error('Error in CommentedPost Mailable: ' . $e->getMessage());
+            throw $e; // Optionally rethrow or handle the exception
+        }
     }
 
     /**

@@ -16,6 +16,8 @@ class Comments extends Model
         'content', 'commentable_id', 'commentable_type', 'user_id',
     ];
 
+
+
     public function commentable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
        return $this->morphTo();

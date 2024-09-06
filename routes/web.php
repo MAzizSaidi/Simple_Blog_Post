@@ -21,10 +21,8 @@ use App\Mail\CommentedPost;
 */
 
 Route::get('/mail', function () {
-    $comment = App\Models\Comments::find(279);
-
-   $test = new CommentedPost($comment);
-   return $test;
+    $comment = App\Models\Comments::find(218);
+    return new CommentedPost($comment);
 });
 
 

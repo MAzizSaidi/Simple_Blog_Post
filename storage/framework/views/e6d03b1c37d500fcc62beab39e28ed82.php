@@ -89,7 +89,7 @@
     <div class="content">
         <!-- User info container -->
         <div class="user-info">
-            <img src="<?php echo e($userAvatar ? $message->embed($userAvatar) : 'public/images/default/default-avatar-icon-of-social-media-user-vector.jpg'); ?>"  class="user-image">
+            <img src="<?php echo e($userAvatar   ? $message->embed($userAvatar) : $message->embed("")); ?>"  class="user-image">
             <div class="user-info-text">
                 <a href="<?php echo e(route('users.show', $comment->user->id)); ?>">
                     <strong><?php echo e($comment->user->name); ?></strong>

@@ -31,7 +31,7 @@ class UserCommentController extends Controller
     $comment->load('commentable');
 
     if ($comment->commentable) {
-        Mail::to($comment->commentable->email)->send(
+        Mail::to($comment->commentable->email)->queue(
             new CommentedPost($comment)
         );
     } else {

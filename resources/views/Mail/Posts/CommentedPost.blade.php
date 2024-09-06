@@ -89,7 +89,7 @@
     <div class="content">
         <!-- User info container -->
         <div class="user-info">
-            <img src="{{ $userAvatar ? $message->embed($userAvatar) : 'public/images/default/default-avatar-icon-of-social-media-user-vector.jpg' }}"  class="user-image">
+            <img src="{{  $userAvatar   ? $message->embed($userAvatar) : $message->embed("") }}"  class="user-image">
             <div class="user-info-text">
                 <a href="{{ route('users.show', $comment->user->id) }}">
                     <strong>{{ $comment->user->name }}</strong>
