@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Mail;
 
 use App\Models\Comments;
@@ -9,8 +10,8 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Attachment;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CommentedPost extends Mailable implements ShouldQueue
 {
@@ -41,39 +42,33 @@ class CommentedPost extends Mailable implements ShouldQueue
      */
     public function content(): Content
     {
-        try {
-            // Resolve the user avatar path
-            $imagePath = $this->comment->user->image->path ?? null;
-            $userAvatarUrl = null;
+        $imagePath = $this->comment->user->image->path ?? null;
+        $userAvatarUrl = null;
 
-            if ($imagePath) {
-                // Generate the public URL for the image using asset()
-                if (str_starts_with($imagePath, 'images/profile_pics')) {
-                    $userAvatarUrl = public_path($imagePath); // Correctly generate URL for public images
-                } elseif (str_starts_with($imagePath, 'storage/avatars/')) {
-                    $userAvatarUrl = Storage::url($imagePath);  // Correctly generate URL for storage files
-                }
+        if ($imagePath) {
+            if (Str::startsWith($imagePath, 'images/profile_pics')) {
+                $userAvatarUrl = public_path($imagePath);
+            } elseif (Str::startsWith($imagePath, '/storage/avatars/')) {
+                $userAvatarUrl = public_path($imagePath);
             }
-
-            return new Content(
-                view: 'Mail.Posts.CommentedPost',
-                with: [
-                    'commentContent' => $this->comment->content,
-                    'postTitle' => $this->comment->commentable->title,
-                    'user' => $this->comment->user->name,
-                    'userAvatar' => $userAvatarUrl,  // URL used in email template
-                ],
-            );
-        } catch (\Exception $e) {
-            Log::error('Error in CommentedPost Mailable: ' . $e->getMessage());
-            throw $e; // Optionally rethrow or handle the exception
+//            dd($userAvatarUrl);
         }
+
+        return new Content(
+            view: 'Mail.Posts.CommentedPost',
+            with: [
+                'commentContent' => $this->comment->content,
+                'postTitle' => $this->comment->commentable->title,
+                'user' => $this->comment->user->name,
+                'userAvatar' => $userAvatarUrl,
+            ],
+        );
     }
 
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {
@@ -81,14 +76,12 @@ class CommentedPost extends Mailable implements ShouldQueue
         $attachmentPath = null;
 
         if ($imagePath) {
-            // Resolve the correct file path for the attachment
-            if (str_starts_with($imagePath, 'images/profile_pics')) {
-                $attachmentPath = public_path($imagePath);  // File path for public images
-            } elseif (str_starts_with($imagePath, 'storage/avatars/')) {
-                $attachmentPath = storage_path('app/public/avatars/' . basename($imagePath));  // File path for storage images
+            if (Str::startsWith($imagePath, 'images/profile_pics')) {
+                $attachmentPath = public_path($imagePath);
+            } elseif (Str::startsWith($imagePath, 'storage/avatars/')) {
+                $attachmentPath = storage_path('app/public/avatars/' . basename($imagePath));
             }
 
-            // Check if the file exists before attaching
             if ($attachmentPath && file_exists($attachmentPath)) {
                 return [
                     Attachment::fromPath($attachmentPath)
