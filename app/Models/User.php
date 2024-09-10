@@ -46,14 +46,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+
     public function blogpost(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
        return $this->hasMany('App\Models\BlogPost');
     }
-//    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
-//    {
-//        return $this->hasMany('App\Models\Comments');
-//    }
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Models\Comments');
+    }
+
     public function commentsOn(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
         return $this->morphMany('App\Models\Comments', 'commentable');
@@ -77,4 +80,12 @@ class User extends Authenticatable
         }])->having('blogpost_count' ,'>=','3')
             ->orderby('blogpost_count','desc');
     }
+    public function scopeThatHasCommentedOnPost(Builder $query, BlogPost $post): Builder
+    {
+        return $query->whereHas('comments', function ($query) use ($post) {
+            $query->where('commentable_id', '=', $post->id)
+                ->where('commentable_type', '=', BlogPost::class);
+        });
+    }
 }
+
