@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\CommentedPost;
 use App\Mail\NotifyUserWhenCommentedOnPost;
 use App\Models\Comments;
 use App\Models\User;
@@ -24,8 +25,7 @@ class NotifyUserPostWasCommented implements ShouldQueue
      */
     public function __construct(Comments $comment)
     {
-        $this->comment = $comment;
-        Log::info('NotifyUserPostWasCommented job instance created.');
+        $this->comment = $comment->load('commentable', 'user', 'user.image');
     }
 
     /**
@@ -33,7 +33,7 @@ class NotifyUserPostWasCommented implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('NotifyUserPostWasCommented job started.', ['comment_id' => $this->comment->id]);
+
 
         User::ThatHasCommentedOnPost($this->comment->commentable)
             ->get()
@@ -45,6 +45,6 @@ class NotifyUserPostWasCommented implements ShouldQueue
                 );
             });
 
-        Log::info('NotifyUserPostWasCommented job completed.');
+
     }
 }

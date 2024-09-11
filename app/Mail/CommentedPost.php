@@ -10,6 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Attachment;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -51,7 +52,8 @@ class CommentedPost extends Mailable implements ShouldQueue
             } elseif (Str::startsWith($imagePath, '/storage/avatars/')) {
                 $userAvatarUrl = public_path($imagePath);
             }
-//            dd($userAvatarUrl);
+        } else {
+            Log::error('User image path is empty or null.', ['user_id' => $this->comment->user->id]);
         }
 
         return new Content(
@@ -89,6 +91,8 @@ class CommentedPost extends Mailable implements ShouldQueue
                         ->withMime('image/jpeg'),
                 ];
             }
+        } else {
+            Log::error('User image path is empty or null.', ['user_id' => $this->comment->user->id]);
         }
 
         return [];

@@ -71,7 +71,9 @@
                                     </form>
                                 </div>
                             </li>
-
+                            <div class="nav-item">
+                                <a class="nav-link" href="<?php echo e(route('users.show', ['user' => Auth::user()])); ?>">Profile</a>
+                            </div>
 
                         <?php endif; ?>
                     </ul>
