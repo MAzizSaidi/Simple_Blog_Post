@@ -18,6 +18,7 @@ class ThrottledMail implements ShouldQueue
 
     public $user;
     public $mail;
+    public $tries = 3;
     /**
      * Create a new job instance.
      */
@@ -33,8 +34,8 @@ class ThrottledMail implements ShouldQueue
     public function handle(): void
     {
         Redis::throttle("mailtrap") // Rate limiter key
-        ->allow(5) // No. executions permitted
-        ->every(10) // Time range in seconds
+        ->allow(2) // No. executions permitted
+        ->every(12) // Time range in seconds
         ->then(function () {
 
             // Lock acquired.
