@@ -39,10 +39,12 @@ class NotifyUserPostWasCommented implements ShouldQueue
             ->get()
             ->filter(fn(User $user) => $user->id !== $this->comment->user_id)
             ->map(function (User $user) {
-                Log::info('Sending email to user.', ['user_id' => $user->id, 'email' => $user->email]);
-                Mail::to($user->email)->send(
-                    new NotifyUserWhenCommentedOnPost($this->comment)
-                );
+
+                ThrottledMail::dispatch(new NotifyUserWhenCommentedOnPost($this->comment), $user);
+
+//                Mail::to($user->email)->send(
+//                    new NotifyUserWhenCommentedOnPost($this->comment)
+//                );
             });
 
 

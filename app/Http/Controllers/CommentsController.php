@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\NotifyUserPostWasCommented;
+use App\Jobs\ThrottledMail;
 use App\Mail\CommentedPost;
 use App\Models\BlogPost;
 use App\Models\User;
@@ -50,26 +51,20 @@ public function store(BlogPost $post, Request $request): \Illuminate\Http\Redire
     $comment->load('commentable');
     NotifyUserPostWasCommented::dispatch($comment);
 //    dd($comment->commentable->user);
-//    if ($comment->commentable) {
-//
+    if ($comment->commentable) {
+//        dd($comment->commentable->user);
+        ThrottledMail::dispatch(new CommentedPost($comment), $comment->commentable->user);
+
 //        Mail::to($comment->commentable->user->email)->queue(
 //            new CommentedPost($comment)
 //      );
 
-
-
-        // same as sending email but with a $delay variable to add time for sending email
-
+    }
+//      same as sending email but with a $delay variable to add time for sending email
+//      Mail::to()->later :
 //        Mail::to($comment->commentable->user->email)->later(
 //            new CommentedPost($comment)
 //        );
-
-
-//    }
-//    else {
-//        // Handle the case where commentable is null
-//        session()->flash('error', 'Unable to send email. Commentable is null.');
-//    }
 
     // Flash a status message and redirect
     session()->flash('status', 'Your comment is under review ... wait for the admin approval');
