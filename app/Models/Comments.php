@@ -32,7 +32,7 @@ class Comments extends Model
     public static function boot(): void
     {
         parent::boot();
-
+//        Using a global scope which accept a model instance and a query builder instance filtered with desc order
 //        static::addGlobalScope(new LatestScope);
 
     }
