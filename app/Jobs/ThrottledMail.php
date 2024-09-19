@@ -22,7 +22,7 @@ class ThrottledMail implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(Mailable $mail , User $user, )
+    public function __construct(Mailable $mail , User $user )
     {
         $this->mail = $mail;
         $this->user = $user;

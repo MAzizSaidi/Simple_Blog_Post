@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BlogPostPosted;
 use App\Models\BlogPost;
 use App\Models\Images;
 use App\Models\User;
@@ -83,6 +84,8 @@ class  BlogPostController extends Controller
 
             $post->image()->create(['path' => $fileUrl]);
         }
+
+        event(new BlogPostPosted($post));
 
         $request->session()->flash('status', 'The resource was created successfully');
         return redirect()->route('posts.index');
