@@ -1,6 +1,6 @@
 <?php $__env->startSection('content'); ?>
     <div class="container">
-        <h1 class="display-4 text-center mb-4">Profile</h1>
+        <h1 class="display-4 text-center mb-4"><?php echo e(__('Profile')); ?></h1>
 
         <!-- Display the user's current avatar -->
         <div class="text-center mb-4">
@@ -15,9 +15,9 @@
         </div>
 
         <div class="text-center mb-5">
-            <a href="<?php echo e(route('users.edit', $user)); ?>" class="btn btn-primary btn-lg mx-2">Edit Profile</a>
-            <a href="<?php echo e(route('posts.index')); ?>" class="btn btn-secondary btn-lg mx-2">Go to Posts!</a>
-            <button id="commentBtn" class="btn btn-outline-primary btn-lg mx-2">Comment</button>
+            <a href="<?php echo e(route('users.edit', $user)); ?>" class="btn btn-primary btn-lg mx-2"><?php echo e(__('Edit Profile')); ?></a>
+            <a href="<?php echo e(route('posts.index')); ?>" class="btn btn-secondary btn-lg mx-2"><?php echo e(__('Go to Posts!')); ?></a>
+            <button id="commentBtn" class="btn btn-outline-primary btn-lg mx-2"><?php echo e(__('Comments')); ?></button>
         </div>
 
         <div id="commentField" class="mb-5" style="display: none;">
@@ -25,9 +25,9 @@
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="user_id" value="<?php echo e($user->id); ?>">
                 <div class="form-group">
-                    <textarea class="form-control" name="content" rows="3" placeholder="Write your comment here..."></textarea>
+                    <textarea class="form-control" name="content" rows="3" placeholder="<?php echo e(__('Write your comment here...')); ?>"></textarea>
                 </div>
-                <button type="submit" class="btn btn-success mt-3">Submit</button>
+                <button type="submit" class="btn btn-success mt-3"><?php echo e(__('Submit')); ?></button>
             </form>
         </div>
 
@@ -52,7 +52,7 @@
                 </div>
             </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-            <div class="alert alert-info text-center">No comments yet. Add your thoughts below.</div>
+            <div class="alert alert-info text-center"><?php echo e(__('No comments yet. Add your thoughts below.')); ?></div>
         <?php endif; ?>
     </div>
 

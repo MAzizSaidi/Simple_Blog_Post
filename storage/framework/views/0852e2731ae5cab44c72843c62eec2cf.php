@@ -16,10 +16,12 @@
 
                             </div>
                         <?php endif; ?>
+                        <p> Using Php : <?php echo e(__('messages.welcome')); ?> </p>
+                        <p> Using JSON : <?php echo e(__('Welcome to Laravel!')); ?> </p>
                         <p><?php echo e(__('You are logged in!')); ?></p>
                     </div>
                     <div class="card-footer w-100 text-center">
-                        <a href="<?php echo e(route('posts.index')); ?>" class="btn btn-secondary">Go to Posts!</a>
+                        <a href="<?php echo e(route('posts.index')); ?>" class="btn btn-secondary"><?php echo e(__('Go to Posts!')); ?></a>
                     </div>
                 </div>
             </div>

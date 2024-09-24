@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1 class="display-4 text-center mb-4">Profile</h1>
+        <h1 class="display-4 text-center mb-4">{{__('Profile')}}</h1>
 
         <!-- Display the user's current avatar -->
         <div class="text-center mb-4">
@@ -17,9 +17,9 @@
         </div>
 
         <div class="text-center mb-5">
-            <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-lg mx-2">Edit Profile</a>
-            <a href="{{ route('posts.index') }}" class="btn btn-secondary btn-lg mx-2">Go to Posts!</a>
-            <button id="commentBtn" class="btn btn-outline-primary btn-lg mx-2">Comment</button>
+            <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-lg mx-2">{{__('Edit Profile')}}</a>
+            <a href="{{ route('posts.index') }}" class="btn btn-secondary btn-lg mx-2">{{__('Go to Posts!')}}</a>
+            <button id="commentBtn" class="btn btn-outline-primary btn-lg mx-2">{{__('Comments')}}</button>
         </div>
 
         <div id="commentField" class="mb-5" style="display: none;">
@@ -27,9 +27,9 @@
                 @csrf
                 <input type="hidden" name="user_id" value="{{ $user->id }}">
                 <div class="form-group">
-                    <textarea class="form-control" name="content" rows="3" placeholder="Write your comment here..."></textarea>
+                    <textarea class="form-control" name="content" rows="3" placeholder="{{__('Write your comment here...')}}"></textarea>
                 </div>
-                <button type="submit" class="btn btn-success mt-3">Submit</button>
+                <button type="submit" class="btn btn-success mt-3">{{__('Submit')}}</button>
             </form>
         </div>
 
@@ -54,7 +54,7 @@
                 </div>
             </div>
         @empty
-            <div class="alert alert-info text-center">No comments yet. Add your thoughts below.</div>
+            <div class="alert alert-info text-center">{{__('No comments yet. Add your thoughts below.')}}</div>
         @endforelse
     </div>
 

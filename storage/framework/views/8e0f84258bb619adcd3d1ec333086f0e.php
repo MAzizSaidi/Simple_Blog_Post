@@ -22,7 +22,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="<?php echo e(url('/')); ?>">
-                    <?php echo e(config('app.name', 'Laravel')); ?>
+                    <?php echo e(__(config('app.name', 'Laravel'))); ?>
 
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="<?php echo e(__('Toggle navigation')); ?>">
@@ -72,7 +72,7 @@
                                 </div>
                             </li>
                             <div class="nav-item">
-                                <a class="nav-link" href="<?php echo e(route('users.show', ['user' => Auth::user()])); ?>">Profile</a>
+                                <a class="nav-link" href="<?php echo e(route('users.show', ['user' => Auth::user()])); ?>"><?php echo e(__('Profile')); ?></a>
                             </div>
 
                         <?php endif; ?>

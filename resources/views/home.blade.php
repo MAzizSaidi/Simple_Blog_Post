@@ -16,10 +16,12 @@
                                 {{ session('danger') }}
                             </div>
                         @endif
+                        <p> Using Php : {{__('messages.welcome')}} </p>
+                        <p> Using JSON : {{__('Welcome to Laravel!')}} </p>
                         <p>{{ __('You are logged in!') }}</p>
                     </div>
                     <div class="card-footer w-100 text-center">
-                        <a href="{{ route('posts.index') }}" class="btn btn-secondary">Go to Posts!</a>
+                        <a href="{{ route('posts.index') }}" class="btn btn-secondary">{{__('Go to Posts!')}}</a>
                     </div>
                 </div>
             </div>

@@ -73,13 +73,13 @@ class User extends Authenticatable
         return $query->withCount('blogpost')->orderby('blogpost_count', 'desc');
     }
 
-    public function scopeMostActiveUserLastMonth ( Builder $query )
-    {
-        return $query->withCount(['blogpost' => function (Builder $query) {
-            return $query->whereBetween(static::CREATED_AT,[now()->subMonths(2) , now()]);
-        }])->having('blogpost_count' ,'>=','3')
-            ->orderby('blogpost_count','desc');
-    }
+  public function scopeMostActiveUserLastMonth(Builder $query)
+{
+    return $query->withCount(['blogpost' => function (Builder $query) {
+        return $query->whereBetween(static::CREATED_AT, [now()->subMonths(1), now()]);
+    }])->having('blogpost_count', '>=', 3)
+        ->orderBy('blogpost_count', 'desc');
+}
     public function scopeThatHasCommentedOnPost(Builder $query, BlogPost $post): Builder
     {
         return $query->whereHas('comments', function ($query) use ($post) {
