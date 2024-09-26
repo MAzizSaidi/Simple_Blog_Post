@@ -76,8 +76,15 @@
     "Comments": "Comentarios",
     "User avatar": "Avatar del usuario",
     "Added": "Agregado",
-    "No comments yet. Add your thoughts below.": "Aún no hay comentarios. Agrega tus pensamientos a continuación."
-
-
+    "No comments yet. Add your thoughts below.": "Aún no hay comentarios. Agrega tus pensamientos a continuación.",
+    "Currently seen by " : "Visto actualmente por ",
+    "Books": "Libros",
+    "Travel": "Viajes",
+    "Health": "Salud",
+    "Technology": "Tecnología",
+    "Entertainment": "Entretenimiento",
+    "Movies": "Películas",
+    "Gaming": "Juegos",
+    "Music": "Música"
 }
 

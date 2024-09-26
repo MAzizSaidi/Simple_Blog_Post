@@ -23,7 +23,7 @@
                             <?php endif; ?>
                         </div>
                         <div class="mb-3 mt-md-0">
-                            <?php $__env->startComponent('components.badge', ['conter' => $conter]); ?><?php echo $__env->renderComponent(); ?>
+                            <span class="badge text-bg-success"><?php echo e(trans_choice('messages.people.reading', $conter, ['conter' => $conter])); ?></span>
                             <?php $__env->startComponent('components.tag', ['tags' => $post->tags]); ?> <?php echo $__env->renderComponent(); ?>
                         </div>
                     </div>

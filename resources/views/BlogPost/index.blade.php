@@ -24,7 +24,7 @@
                             @endif
                         </div>
                         <div class="mb-3 mt-md-0">
-                            @component('components.badge', ['conter' => $conter])@endcomponent
+                            <span class="badge text-bg-success">{{trans_choice('messages.people.reading', $conter, ['conter' => $conter])}}</span>
                             @component('components.tag', ['tags' => $post->tags]) @endcomponent
                         </div>
                     </div>

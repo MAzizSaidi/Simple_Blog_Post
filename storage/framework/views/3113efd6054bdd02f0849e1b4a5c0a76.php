@@ -1,4 +1,4 @@
- <span class="badge text-bg-success">Currently seen by <?php echo e(!empty($conter) ? $conter : ''); ?>
+ <span class="badge text-bg-success"><?php echo e(trans_choice('messages.people.reading', $conter, ['conter' => $conter])); ?>
 
         <?php echo e($slot); ?>
 

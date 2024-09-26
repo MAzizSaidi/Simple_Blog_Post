@@ -92,12 +92,9 @@
                                         <a href="<?php echo e(route('users.show',$post->user)); ?>"><?php echo e($post->user->name); ?></a>
                                     </small>
 
-                                    <?php if($post->comments_count): ?>
-                                        <small class="text-muted"><?php echo e($post->comments_count); ?> <?php echo e(__("Comments")); ?></small>
-                                    <?php else: ?>
 
-                                        <small class="text-muted"><?php echo e(__("No Comments Yet")); ?></small>
-                                    <?php endif; ?>
+                                        <small class="text-muted"><?php echo e(trans_choice('messages.comments' , $post->comments_count)); ?></small>
+
 
                                     <a href="<?php echo e(route('posts.show', $post->id)); ?>" class="btn btn-primary btn-sm ml-auto"><?php echo e(__("View")); ?></a>
 

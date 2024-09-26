@@ -93,12 +93,9 @@
                                         <a href="{{route('users.show',$post->user)}}">{{ $post->user->name }}</a>
                                     </small>
 
-                                    @if ($post->comments_count)
-                                        <small class="text-muted">{{ $post->comments_count }} {{ __("Comments") }}</small>
-                                    @else
 
-                                        <small class="text-muted">{{ __("No Comments Yet") }}</small>
-                                    @endif
+                                        <small class="text-muted">{{ trans_choice('messages.comments' , $post->comments_count) }}</small>
+
 
                                     <a href="{{ route('posts.show', $post->id) }}" class="btn btn-primary btn-sm ml-auto">{{ __("View") }}</a>
 
