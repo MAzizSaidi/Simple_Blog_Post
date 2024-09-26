@@ -11,12 +11,14 @@
                 <div class="col-md-4 mb-4">
                     <!-- Display the user's current avatar -->
                     <div class="mb-3">
-                        <img src="#" alt="Avatar" class="img-thumbnail avatar" >
+
+                        <img id="avatarPreview" src="<?php echo e($user->image ? asset($user->image->path) : '#'); ?>" alt="Avatar" class="img-thumbnail avatar" >
+
                     </div>
                     <!-- Avatar upload field -->
                     <div class="mb-3">
                         <label for="avatar" class="form-label"><?php echo e(__('Change Avatar')); ?></label>
-                        <input type="file" class="form-control" id="avatar" name="<?php echo e(__('Avatar')); ?>">
+                        <input type="file" class="form-control" id="avatar" name="avatar" onchange="previewImage(event)">
                         <?php $__errorArgs = ['avatar'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -56,7 +58,27 @@ unset($__errorArgs, $__bag); ?>
         </form>
     </div>
 
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const file = input.files[0];
+            const preview = document.getElementById('avatarPreview');
 
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
+        }
+    </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\MyStudies\My_repo\Simple_Blog_Post\resources\views/User/update.blade.php ENDPATH**/ ?>

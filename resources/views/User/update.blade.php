@@ -13,12 +13,14 @@
                 <div class="col-md-4 mb-4">
                     <!-- Display the user's current avatar -->
                     <div class="mb-3">
-                        <img src="#" alt="Avatar" class="img-thumbnail avatar" >
+
+                        <img id="avatarPreview" src="{{ $user->image ? asset($user->image->path) : '#' }}" alt="Avatar" class="img-thumbnail avatar" >
+
                     </div>
                     <!-- Avatar upload field -->
                     <div class="mb-3">
                         <label for="avatar" class="form-label">{{__('Change Avatar')}}</label>
-                        <input type="file" class="form-control" id="avatar" name="{{__('Avatar')}}">
+                        <input type="file" class="form-control" id="avatar" name="avatar" onchange="previewImage(event)">
                         @error('avatar')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -44,5 +46,25 @@
         </form>
     </div>
 
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const file = input.files[0];
+            const preview = document.getElementById('avatarPreview');
 
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
+        }
+    </script>
 @endsection

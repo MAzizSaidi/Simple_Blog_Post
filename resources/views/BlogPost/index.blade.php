@@ -16,10 +16,10 @@
 
                     <div>
                             <h5>{{ $post->title }}</h5>
-                            <small style="color: white;">Posted on {{ $post->created_at->format('M d, Y') }}</small>
+                            <small style="color: white;">{{ __("Posted on") }} {{ $post->created_at->format('M d, Y') }}</small>
                         @if ((new \Carbon\Carbon())->diffInSeconds($post->created_at) <= 10)
                                 @component('components.badge')
-                                    Just added {{ $post->created_at->diffForHumans() }}
+                                    {{ __("Just added") }} {{ $post->created_at->diffForHumans() }}
                                 @endcomponent
                             @endif
                         </div>
@@ -39,15 +39,15 @@
                     <div class="card-footer d-flex flex-column flex-md-row justify-content-between align-items-start">
                         <div>
                             @can('update', $post)
-                                <a href="{{ route('posts.edit', $post) }}" class="btn btn-warning mb-2 mb-md-0">Update</a>
+                                <a href="{{ route('posts.edit', $post) }}" class="btn btn-warning mb-2 mb-md-0">{{ __("Update") }}</a>
                             @endcan
                             @if($post->trashed())
-                                <p class="mt-4">This post is actually deleted. Do you want to restore it?</p>
+                                <p class="mt-4">{{ __("This post is actually deleted. Do you want to restore it?") }}</p>
                                 @can('restore', $post)
                                     <form action="{{ route('posts.restore', $post) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn btn-info mb-2 mb-md-0">Restore</button>
+                                        <button type="submit" class="btn btn-info mb-2 mb-md-0">{{ __("Restore") }}</button>
                                     </form>
                                 @endcan
                             @endif
@@ -55,32 +55,32 @@
                                 <form action="{{ route('posts.destroy', $post) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger mb-2 mb-md-0">Delete</button>
+                                    <button type="submit" class="btn btn-danger mb-2 mb-md-0">{{ __("Delete") }}</button>
                                 </form>
                             @endcan
-                            <button id="commentBtn" class="btn btn-primary mb-2 mb-md-0">Comment</button>
+                            <button id="commentBtn" class="btn btn-primary mb-2 mb-md-0">{{ __("Comment") }}</button>
                             <div id="commentField" style="display: none;">
                                 <form action="{{ route('comments.store') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="blog_post_id" value="{{ $post->id }}">
                                     <div class="form-group mt-2">
-                                        <textarea class="form-control" name="content" rows="3" placeholder="Write your comment here..."></textarea>
+                                        <textarea class="form-control" name="content" rows="3" placeholder="{{ __("Write your comment here...") }}"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-success mt-2">Submit</button>
+                                    <button type="submit" class="btn btn-success mt-2">{{ __("Submit") }}</button>
                                 </form>
                             </div>
                         </div>
                         <div class="mt-3 mt-md-0">
-                            <a href="{{ route('posts.index') }}" class="btn btn-secondary">Back to Blog</a>
+                            <a href="{{ route('posts.index') }}" class="btn btn-secondary">{{ __("Back to Blog") }}</a>
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5>Comments</h5>
+                        <h5>{{ __("Comments") }}</h5>
                         @forelse($post->comments as $comment)
                             <div class="comment-block mb-3 p-3 border rounded bg-light">
                                 <div class="d-flex align-items-start mb-2">
                                     @if($comment->user->image)
-                                        <img src="{{ asset($comment->user->image->path) }}" class="img-thumbnail rounded-circle profile me-3" alt="User avatar" style="width: 50px; height: 50px;">
+                                        <img src="{{ asset($comment->user->image->path) }}" class="img-thumbnail rounded-circle profile me-3" alt="{{ __("User avatar") }}" style="width: 50px; height: 50px;">
                                     @endif
                                     <div class="w-100">
                                         <div class="d-flex justify-content-between mb-1">
@@ -92,12 +92,12 @@
                                             </div>
                                         </div>
                                         <p class="comment-content mb-1" style="color: black;">{{ $comment->content }}</p>
-                                        <small class="text-muted">Added {{ $comment->created_at->diffForHumans() }}</small>
+                                        <small class="text-muted">{{ __("Added") }} {{ $comment->created_at->diffForHumans() }}</small>
                                     </div>
                                 </div>
                             </div>
                         @empty
-                            <small style="color: black;">No comments yet. Add your thoughts below.</small>
+                            <small style="color: black;">{{ __("No comments yet. Add your thoughts below.") }}</small>
                         @endforelse
 
                     </div>

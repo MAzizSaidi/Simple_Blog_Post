@@ -3,7 +3,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h5><?php echo e(isset($post) ? 'Edit Blog Post' : 'Create a New Blog Post'); ?></h5>
+                    <h5><?php echo e(isset($post) ? __("Edit Blog Post") : __("Create a New Blog Post")); ?></h5>
                 </div>
                 <div class="card-body">
                     <form method="post" action="<?php echo e(isset($post) ? route('posts.update', $post->id) : route('posts.store')); ?>" enctype="multipart/form-data">
@@ -13,20 +13,20 @@
                         <?php endif; ?>
 
                         <div class="form-group">
-                            <label for="title">Title</label>
+                            <label for="title"><?php echo e(__("Title")); ?></label>
                             <input type="text" class="form-control" name="title" id="title" required value="<?php echo e(old('title', $post->title ?? '')); ?>">
                         </div>
 
                         <div class="form-group">
-                            <label for="content">Content</label>
+                            <label for="content"><?php echo e(__("Content")); ?></label>
                             <textarea class="form-control" name="content" id="content" rows="5" required><?php echo e(old('content', $post->content ?? '')); ?></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="image">Image</label>
+                            <label for="image"><?php echo e(__("Image")); ?></label>
                             <div class="input-group mb-3">
                                 <input type="file" class="form-control" name="thumbnail" id="inputGroupFile02" onchange="previewImage(event)">
-                                <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                                <label class="input-group-text" for="inputGroupFile02"><?php echo e(__("Upload")); ?></label>
                             </div>
                             <!-- Image preview -->
                             <div class="text-center mt-2">
@@ -35,7 +35,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary mt-2">
-                            <?php echo e(isset($post) ? 'Update' : 'Create'); ?>
+                            <?php echo e(isset($post) ? __("Update") : __("Create")); ?>
 
                         </button>
                     </form>

@@ -49,6 +49,35 @@
     "Change Avatar" : "Cambiar Avatar",
     "Update Profile" : "Actualizar Perfil",
     "Avatar" : "Avatar",
-    "Name" : "Nombre"
+    "Name" : "Nombre",
+    "Upload" : "Subir",
+    "Create" : "Crear",
+    "Image" : "Imagen",
+    "Edit Blog Post" : "Editar publicación de blog",
+    "Create a New Blog Post" : "Crear una nueva publicación de blog",
+    "Most Commented Blogpost !" :"Blogpost más comentado!",
+    "Discover the most talked-about blog posts that are capturing everyone's attention." : "Descubra las publicaciones de blog más comentadas y que captan la atención de todos.",
+    "View" : "Vista",
+    "Most Active Users !" : "Usuarios más activos!",
+    "Discover the most active users that are capturing everyone's attention." : "Descubre los usuarios más activos que están captando la atención de todos.",
+    "Blogs" : "Blogs",
+    "Most Active Users Last Two Months !" : "¡Los usuarios más activos duran dos meses!",
+    "Discover the most active users that are capturing everyone's attention in the last 2 months." : "¡Los usuarios más activos duran dos meses!",
+    "Posted on": "Publicado el",
+    "Just added": "Recién agregado",
+    "Update": "Actualizar",
+    "This post is actually deleted. Do you want to restore it?": "Esta publicación está eliminada. ¿Quieres restaurarla?",
+    "Restore": "Restaurar",
+    "Delete": "Eliminar",
+    "Comment": "Comentar",
+    "Write your comment here...": "Escribe tu comentario aquí...",
+    "Submit": "Enviar",
+    "Back to Blog": "Volver al Blog",
+    "Comments": "Comentarios",
+    "User avatar": "Avatar del usuario",
+    "Added": "Agregado",
+    "No comments yet. Add your thoughts below.": "Aún no hay comentarios. Agrega tus pensamientos a continuación."
+
+
 }
 

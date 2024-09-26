@@ -178,6 +178,7 @@ class  BlogPostController extends Controller
             $filePath = $file->storeAs('thumbnails', $post->id . '.' . $file->guessExtension());
 
             if ($post->image){
+
                 Storage::delete($post->image->path);
                 $post->image->path = $filePath;
             }

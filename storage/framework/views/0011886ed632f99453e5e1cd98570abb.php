@@ -2,23 +2,23 @@
     <div class="container">
         <div class="row">
             <div class="text-center mb-4 col-12">
-                <a href="<?php echo e(route('posts.create')); ?>" class="btn btn-success">Add Blog</a>
+                <a href="<?php echo e(route('posts.create')); ?>" class="btn btn-success"><?php echo e(__("Add Blog")); ?></a>
             </div>
 
             <div class="col-md-4 mb-4">
                 <div class="card" style="width: 25rem;">
 
                     <div class="card-body">
-                        <h5 class="card-title">Most Commented Blogpost !</h5>
-                        <p class="card-text">Discover the most talked-about blog posts that are capturing everyone's attention.</p>
+                        <h5 class="card-title"><?php echo e(__("Most Commented Blogpost !")); ?></h5>
+                        <p class="card-text"><?php echo e(__("Discover the most talked-about blog posts that are capturing everyone's attention.")); ?></p>
                     </div>
 
                     <div class="list-group list-group-flush">
                         <?php $__currentLoopData = $mostCommented; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="list-group-item mb-2">
                                <p><?php echo e($post->title); ?></p>
-                                <small class="text-muted"><?php echo e($post->comments_count); ?> Comments </small>
-                                <a href="<?php echo e(route('posts.show', ['post' => $post->id])); ?>" class="btn btn-primary btn-sm float-end">View</a>
+                                <small class="text-muted"><?php echo e($post->comments_count); ?> <?php echo e(__("Comments")); ?></small>
+                                <a href="<?php echo e(route('posts.show', ['post' => $post->id])); ?>" class="btn btn-primary btn-sm float-end"><?php echo e(__("View")); ?></a>
                             </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
@@ -28,15 +28,15 @@
                         <div class="card mt-4" style="width: 25rem;">
 
                             <div class="card-body">
-                                <h5 class="card-title">Most Active Users ! </h5>
-                                <p class="card-text">Discover the most active users that are capturing everyone's attention.</p>
+                                <h5 class="card-title"><?php echo e(__("Most Active Users !")); ?></h5>
+                                <p class="card-text"><?php echo e(__("Discover the most active users that are capturing everyone's attention.")); ?></p>
                             </div>
 
                             <div class="list-group list-group-flush">
                                 <?php $__currentLoopData = $activeUser; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="list-group-item mb-2">
                                         <p><?php echo e($user->name); ?></p>
-                                        <small class="text-muted float-end"><?php echo e($user->blogpost_count); ?> Blogs </small>
+                                        <small class="text-muted float-end"><?php echo e($user->blogpost_count); ?> <?php echo e(__("Blogs")); ?></small>
                                     </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
@@ -49,15 +49,15 @@
                         <div class="card mt-4" style="width: 25rem;">
 
                             <div class="card-body">
-                                <h5 class="card-title">Most Active Users Last Two Months ! </h5>
-                                <p class="card-text">Discover the most active users that are capturing everyone's attention in the last 2 months.</p>
+                                <h5 class="card-title"><?php echo e(__("Most Active Users Last Two Months !")); ?></h5>
+                                <p class="card-text"><?php echo e(__("Discover the most active users that are capturing everyone's attention in the last 2 months.")); ?></p>
                             </div>
 
                             <div class="list-group list-group-flush">
                                 <?php $__currentLoopData = $MostActiveUserLastMonth; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="list-group-item mb-2">
                                         <p><?php echo e($user->name); ?></p>
-                                        <small class="text-muted float-end"><?php echo e($user->blogpost_count); ?> Blogs </small>
+                                        <small class="text-muted float-end"><?php echo e($user->blogpost_count); ?> <?php echo e(__("Blogs")); ?></small>
                                     </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
@@ -85,20 +85,21 @@
                                 </div>
                                 <div class="card-footer d-flex justify-content-between align-items-center">
 
-                                    <small class="text-muted">Posted on <?php echo e($post->created_at->format('M d, Y')); ?></small>
+                                    <small class="text-muted"><?php echo e(__("Posted on")); ?> <?php echo e($post->created_at->format('M d, Y')); ?></small>
 
-                                    <small class="text-muted"> By
-                                        <a href="<?php echo e(route('users.show',$post->user)); ?>"> <?php echo e($post->user->name); ?></a>
+                                    <small class="text-muted"><?php echo e(__("By")); ?>
+
+                                        <a href="<?php echo e(route('users.show',$post->user)); ?>"><?php echo e($post->user->name); ?></a>
                                     </small>
 
                                     <?php if($post->comments_count): ?>
-                                        <small class="text-muted"> <?php echo e($post->comments_count); ?> Comments </small>
+                                        <small class="text-muted"><?php echo e($post->comments_count); ?> <?php echo e(__("Comments")); ?></small>
                                     <?php else: ?>
 
-                                        <small class="text-muted"> No Comments Yet </small>
+                                        <small class="text-muted"><?php echo e(__("No Comments Yet")); ?></small>
                                     <?php endif; ?>
 
-                                    <a href="<?php echo e(route('posts.show', $post->id)); ?>" class="btn btn-primary btn-sm ml-auto">View</a>
+                                    <a href="<?php echo e(route('posts.show', $post->id)); ?>" class="btn btn-primary btn-sm ml-auto"><?php echo e(__("View")); ?></a>
 
                                 </div>
                             </div>

@@ -35,6 +35,10 @@
             <div class="comment-block mb-4 p-4 border rounded bg-white shadow-sm">
                 <div class="d-flex align-items-start mb-2">
                     <?php if($comment->user->image): ?>
+                    <?php echo e(dump($comment->user->image->path)); ?>
+
+                    <?php echo e(die); ?>
+
                         <img src="<?php echo e(asset($comment->user->image->path)); ?>" class="img-thumbnail rounded-circle profile me-3 shadow" alt="User avatar" style="width: 50px; height: 50px;">
                     <?php endif; ?>
                     <div class="w-100">

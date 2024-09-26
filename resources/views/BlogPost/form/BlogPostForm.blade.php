@@ -3,7 +3,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h5>{{ isset($post) ? 'Edit Blog Post' : 'Create a New Blog Post' }}</h5>
+                    <h5>{{ isset($post) ? __("Edit Blog Post") : __("Create a New Blog Post") }}</h5>
                 </div>
                 <div class="card-body">
                     <form method="post" action="{{ isset($post) ? route('posts.update', $post->id) : route('posts.store') }}" enctype="multipart/form-data">
@@ -13,20 +13,20 @@
                         @endif
 
                         <div class="form-group">
-                            <label for="title">Title</label>
+                            <label for="title">{{__("Title")}}</label>
                             <input type="text" class="form-control" name="title" id="title" required value="{{ old('title', $post->title ?? '') }}">
                         </div>
 
                         <div class="form-group">
-                            <label for="content">Content</label>
+                            <label for="content">{{__("Content")}}</label>
                             <textarea class="form-control" name="content" id="content" rows="5" required>{{ old('content', $post->content ?? '') }}</textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="image">Image</label>
+                            <label for="image">{{__("Image")}}</label>
                             <div class="input-group mb-3">
                                 <input type="file" class="form-control" name="thumbnail" id="inputGroupFile02" onchange="previewImage(event)">
-                                <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                                <label class="input-group-text" for="inputGroupFile02">{{__("Upload")}}</label>
                             </div>
                             <!-- Image preview -->
                             <div class="text-center mt-2">
@@ -35,7 +35,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary mt-2">
-                            {{ isset($post) ? 'Update' : 'Create' }}
+                            {{ isset($post) ? __("Update") : __("Create") }}
                         </button>
                     </form>
                 </div>

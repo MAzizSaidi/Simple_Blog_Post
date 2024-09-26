@@ -37,6 +37,8 @@
             <div class="comment-block mb-4 p-4 border rounded bg-white shadow-sm">
                 <div class="d-flex align-items-start mb-2">
                     @if($comment->user->image)
+                    {{dump($comment->user->image->path)}}
+                    {{die}}
                         <img src="{{ asset($comment->user->image->path) }}" class="img-thumbnail rounded-circle profile me-3 shadow" alt="User avatar" style="width: 50px; height: 50px;">
                     @endif
                     <div class="w-100">

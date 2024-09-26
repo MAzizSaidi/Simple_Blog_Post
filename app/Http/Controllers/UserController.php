@@ -58,31 +58,35 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user): \Illuminate\Http\RedirectResponse
-    {
-        $user->name = $request->input('name');
+public function update(Request $request, User $user): \Illuminate\Http\RedirectResponse
+{
+    $request->validate([
+        'name' => 'required',
+        'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+    ]);
 
-        if ($request->hasFile('avatar')) {
-            $file = $request->file('avatar');
-            $filePath = $file->storeAs('avatars', $user->id . '.' . $file->guessExtension(), 'public');
+    $user->name = $request->input('name');
 
-            if ($user->image) {
-                // Correct path for deletion
-                Storage::disk('public')->delete($user->image->path);
+    if ($request->hasFile('avatar')) {
+        $file = $request->file('avatar');
+        $filePath = $file->storeAs('avatars', $user->id . '.' . $file->guessExtension());
+        if ($user->image) {
 
-                // Update the image path in the existing image record
-                $user->image->path = $filePath;
-                $user->image->save();
-            } else {
-                $filePath = Storage::disk('local')->url($filePath);
-                $user->image()->create(['path' => $filePath]);
-            }
+            Storage::disk()->delete($user->image->path);
+            $user->image->path = $filePath;
+//            dd($user->image);
+
+        } else {
+            $fileUrl = Storage::disk('local')->url($filePath);
+            $user->image()->create(['path' => $fileUrl]);
         }
-
-        $user->save();
-//        dd($filePath);
-        return redirect()->route('users.show', ['user' => $user]);
     }
+
+    $user->save();
+//    dd($user->image);
+    $request->session()->flash('status', 'The resource was updated successfully');
+    return redirect()->route('users.show', ['user' => $user]);
+}
 
 
 
