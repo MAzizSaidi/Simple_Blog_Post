@@ -45,13 +45,6 @@ A powerful, modular blog application built with **Laravel 10**, following clean 
 - ❤️ Post likes and user reactions
 - 🌐 Vue.js or Livewire integration for real-time features
 - 🧵 Admin dashboard & moderation system
-
----
-
-## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
-
 ---
 
 > Built with ❤️ by Aziz Saidi — ISET Béja  
